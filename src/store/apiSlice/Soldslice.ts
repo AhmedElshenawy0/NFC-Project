@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const soldServiceSlice = createApi({
   reducerPath: "soldService",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:5000/api/soldServices",
+    baseUrl: import.meta.env.VITE_BASE_URL,
   }),
   tagTypes: ["SoldService"],
   endpoints: (builder) => ({
