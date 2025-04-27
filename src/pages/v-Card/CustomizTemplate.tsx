@@ -5,6 +5,7 @@ import { useCreateSoldServiceMutation } from "../../store/apiSlice/Soldslice";
 import toast from "react-hot-toast";
 import { CustomError } from "../../types/types";
 import BtnSnipper from "../../components/global/BtnSnipper";
+import image1 from "../../../public/images/profile.png";
 
 const CustomizeTemplate = () => {
   const navigate = useNavigate();
@@ -63,6 +64,7 @@ const CustomizeTemplate = () => {
     Object.entries(formData).forEach(([key, value]) => {
       form.append(key, value);
     });
+    console.log("form", form);
 
     try {
       const response = await createSoldService(form).unwrap();
@@ -96,7 +98,7 @@ const CustomizeTemplate = () => {
         <div className="relative flex flex-col items-center">
           <div className="relative w-32 h-32">
             <img
-              src={imagePreview || "/images/placeholder.jpg"}
+              src={imagePreview || image1}
               alt="Profile Preview"
               className="w-full h-full object-top rounded-full object-cover border-4 border-gray-700 shadow-lg"
             />
@@ -138,6 +140,53 @@ const CustomizeTemplate = () => {
               }
               className="w-full px-4 py-2 rounded-lg bg-gray-800 text-gray-200 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-600"
             />
+
+            {/* Character counter and tips */}
+            {(key === "bio" ||
+              key === "about" ||
+              key === "facebook_link" ||
+              key === "instgram_link" ||
+              key === "linkedin_link") && (
+              <>
+                {key === "bio" &&
+                  ((formData as any)[key].length < 70 ||
+                    (formData as any)[key].length > 120) && (
+                    <p className="text-yellow-400 text-xs mt-1 font-semibold">
+                      <p className="text-gray-400">
+                        Characters: {(formData as any)[key].length}
+                      </p>
+                      Recommended: 70–120 characters for a concise and catchy
+                      bio.
+                    </p>
+                  )}
+                {key === "about" &&
+                  ((formData as any)[key].length < 200 ||
+                    (formData as any)[key].length > 300) && (
+                    <p className="text-yellow-400 text-xs mt-1 font-semibold">
+                      <p className="text-gray-400">
+                        Characters: {(formData as any)[key].length}
+                      </p>
+                      Recommended: 200–300 characters for a strong personal
+                      introduction.
+                    </p>
+                  )}
+                {key === "facebook_link" && !(formData as any)[key] && (
+                  <p className="text-yellow-400 text-xs mt-1 font-semibold">
+                    Recommended: It'll be awesome to add social media links
+                  </p>
+                )}
+                {key === "instgram_link" && !(formData as any)[key] && (
+                  <p className="text-yellow-400 text-xs mt-1 font-semibold">
+                    Recommended: It'll be awesome to add social media links
+                  </p>
+                )}
+                {key === "linkedin_link" && !(formData as any)[key] && (
+                  <p className="text-yellow-400 text-xs mt-1 font-semibold">
+                    Recommended: It'll be awesome to add social media links
+                  </p>
+                )}
+              </>
+            )}
           </div>
         ))}
 

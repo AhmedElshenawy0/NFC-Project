@@ -10,12 +10,16 @@ const Layout = () => {
   const hideHeaderRoutes = [
     "/template",
     "/menu-template",
-    // "/edit-template",
+    "/edit-template",
     // "/edit-menu",
   ];
-
+  const noPaddingRoutes = ["/menu", "/template"];
   return (
-    <div className="min-h-screen relative bg-gradient-to-br from-black to-[#3a0d4e] text-gray-200 px-4 py-6">
+    <div
+      className={`min-h-screen relative bg-gradient-to-br from-black to-[#3a0d4e] text-gray-200 ${
+        noPaddingRoutes.includes(location.pathname) ? "" : "px-4 py-6"
+      }`}
+    >
       {!hideHeaderRoutes.includes(location.pathname) && (
         <motion.div
           initial={{ opacity: 0, y: -30 }}

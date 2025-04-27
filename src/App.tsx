@@ -20,24 +20,38 @@ import EditMenu from "./pages/menu/EditMenu";
 import ProtectedTemplate from "./components/auth/ProtectedTemplate";
 import ProtectAuthRoute from "./components/auth/ProtectAuthRoute";
 import Layout from "./Layout";
+// import NotFound from "./pages/NotFound";
+import ErrorBoundary from "./components/global/ErrorBoundary";
+import ProtectAdminPage from "./components/auth/ProtectAdminPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
+    // errorElement: <NotFound />,
     children: [
       { path: "/", element: <Home /> },
       { path: "/signup", element: <Signup /> },
       { path: "/signin", element: <SignIn /> },
-      { path: "/select-template", element: <SelectTemplate /> },
-      { path: "/customize-template", element: <CutomizeTemplate /> },
+      {
+        path: "/select-template",
+        element: (
+          <ProtectAuthRoute>
+            <SelectTemplate />
+          </ProtectAuthRoute>
+        ),
+      },
+      {
+        path: "/customize-template",
+        element: (
+          <ProtectAuthRoute>
+            <CutomizeTemplate />
+          </ProtectAuthRoute>
+        ),
+      },
       {
         path: "/template",
-        element: (
-          // <ProtectedTemplate>
-          <VCard />
-          // </ProtectedTemplate>
-        ),
+        element: <VCard />,
       },
       {
         path: "/edit-template",
@@ -49,11 +63,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/menu-template",
-        element: (
-          // <ProtectedTemplate>
-          <MenuTemplate />
-          // </ProtectedTemplate>
-        ),
+        element: <MenuTemplate />,
       },
       {
         path: "/edit-menu",
@@ -72,17 +82,21 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/admin-dashboard",
-        element: (
-          // <ProtectAdminPage>
-          <AdminDashboard />
-          // </ProtectAdminPage>
-        ),
+        element: <ProtectAdminPage />,
+        children: [
+          { path: "/admin-dashboard", element: <AdminDashboard /> },
+          { path: "/add-card", element: <AddCard /> },
+          { path: "/cards", element: <Cards /> },
+          { path: "/clients", element: <Clients /> },
+          { path: "/file-template", element: <FileTemplate /> },
+        ],
       },
-      { path: "/add-card", element: <AddCard /> },
-      { path: "/cards", element: <Cards /> },
-      { path: "/clients", element: <Clients /> },
-      { path: "/file-template", element: <FileTemplate /> },
+      {
+        path: "/file-template",
+        element: <FileTemplate />,
+      },
+
+      { path: "*", element: <Home /> },
     ],
   },
 ]);
@@ -91,7 +105,9 @@ function App() {
   return (
     <Provider store={store}>
       <Toaster position="top-center" containerStyle={{ zIndex: "100" }} />
-      <RouterProvider router={router} />
+      <ErrorBoundary>
+        <RouterProvider router={router} />
+      </ErrorBoundary>
     </Provider>
   );
 }

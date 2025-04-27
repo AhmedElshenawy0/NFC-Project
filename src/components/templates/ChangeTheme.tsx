@@ -1,12 +1,18 @@
-import { useNavigate, useSearchParams } from "react-router-dom";
-import toast from "react-hot-toast";
-import FourthUiTest from "../v-card ui/FourthUiTest";
-import SecondUiTest from "../v-card ui/SecondUiTest";
-import { dummyData } from "../../utils/dummyData";
 import FirstUITest from "../v-card ui/FirstUiTest";
+import { dummyData } from "../../utils/dummyData";
 import ThirdUITest from "../v-card ui/ThirdUiTest";
+import SecondUiTest from "../v-card ui/SecondUiTest";
+import FourthUiTest from "../v-card ui/FourthUiTest";
 
-const VCardTemplatesComponent = () => {
+const ChangeTheme = ({
+  setIsThemeOpen,
+  setTheme,
+  theme,
+}: {
+  setIsThemeOpen: any;
+  setTheme: any;
+  theme: any;
+}) => {
   const vCardStyles = [
     {
       id: 1,
@@ -53,38 +59,27 @@ const VCardTemplatesComponent = () => {
       ),
     },
   ];
-  const navigate = useNavigate();
+  console.log(theme);
 
-  const [searchParams] = useSearchParams();
-
-  const serviceType = searchParams.get("service-type");
-
-  const onTemplateSelect = (v_card_type: string) => {
-    if (!serviceType) {
-      toast.error("there is no type provided");
-      console.log(serviceType);
-    } else {
-      navigate(
-        `/customize-template?service-type=${serviceType}&v-card-ui=${v_card_type}`
-      );
-    }
+  const handleUpdateUi = (type: string) => {
+    setTheme(type);
+    setIsThemeOpen(false);
   };
-
   return (
-    <div className="flex flex-col items-center">
+    <div className="right-0 absolute top-0 bg-black px-3 py-7 flex flex-col items-center">
       <div className="text-center w-full max-w-md mb-8">
         <p className="font-bold text-lg text-purple-700 bg-purple-50 px-4 py-2 rounded-md shadow-sm">
           Select a template to customize it for your needs.
         </p>
       </div>
       {/* Template Selection */}
-      <div className="w-full max-w-3xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="relative w-full max-w-3xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {vCardStyles.map((ele) => {
           return (
             <div
               key={ele?.id}
               className={`border-2 p-0 rounded-lg cursor-pointer hover:border-purple-500 transition`}
-              onClick={() => onTemplateSelect(ele?.type)}
+              onClick={() => handleUpdateUi(ele?.type)}
             >
               {ele?.component}
             </div>
@@ -95,4 +90,4 @@ const VCardTemplatesComponent = () => {
   );
 };
 
-export default VCardTemplatesComponent;
+export default ChangeTheme;

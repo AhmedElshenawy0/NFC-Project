@@ -1,7 +1,12 @@
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
 export type CustomError = FetchBaseQueryError & {
-  data?: { message?: string; type?: string; cardId: string | number };
+  data?: {
+    message?: string;
+    type?: string;
+    cardId: string | number;
+    cliientId?: string;
+  };
 };
 
 export type V_card_data = {

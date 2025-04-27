@@ -2,6 +2,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { useGetClientInfoQuery } from "../../store/apiSlice/AuthSlice";
 import toast from "react-hot-toast";
 import { ReactNode, useEffect, useState } from "react";
+import Snipper from "../global/Snipper";
 
 interface ProtectAdminPageProps {
   children?: ReactNode;
@@ -26,11 +27,8 @@ const ProtectAdminPage: React.FC<ProtectAdminPageProps> = ({ children }) => {
     if (data?.user?.email) {
       if (data?.user?.role === "admin") {
         toast.success("Welcom to your dashboard.");
-        console.log("from protect admin component", data?.user);
-
-        navigate("/admin-dashboard");
       } else {
-        window.history.back();
+        navigate("/", { replace: true });
         toast.error("Access Forbidden: Admins only");
         console.log(data);
       }
@@ -42,7 +40,7 @@ const ProtectAdminPage: React.FC<ProtectAdminPageProps> = ({ children }) => {
     }
   }, [data, error, navigate, isLoading, toastShown]);
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <Snipper />;
 
   return children ? <>{children}</> : <Outlet />;
 };

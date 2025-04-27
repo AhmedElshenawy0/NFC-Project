@@ -58,6 +58,7 @@ const RootLayout = () => {
       }
     }
   }, [isError, error]);
+
   return (
     <div className="flex flex-col items-center ">
       {/* Input Section */}

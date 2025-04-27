@@ -9,29 +9,31 @@ import { FiMapPin } from "react-icons/fi";
 import { motion } from "framer-motion";
 import { useEffect } from "react";
 import { handleSaveContact } from "../../utils/contactFile";
+// import tinycolor from "tinycolor2";
+// import { isDark } from "../../utils/colorBritness";
 
 const FirstUI = ({ data }: { data: any }) => {
   const encodedAddress = encodeURIComponent(data?.address || "");
   const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodedAddress}`;
 
   // Default text color and btn
-  // const [textColor, setTextColor] = useState("text-gray-300");
-  // const [textBtnColor, setTextBtnColor] = useState("text-gray-300");
+  // const [textColor, setTextColor] = useState("text-white");
+  // const [textBtnColor, setTextBtnColor] = useState("text-black");
 
   useEffect(() => {
     // check if color is dark Update text color
-    // setTextColor(
-    //   isDark(data?.mainBackground) ? "text-gray-300" : "text-gray-900"
-    // );
+    // setTextColor(isDark(data?.mainBackground) ? "text-white" : "text-black");
     // setTextBtnColor(
-    //   isDark(data?.buttonBackground) ? "text-gray-300" : "text-gray-900"
+    //   isDark(data?.buttonBackground) ? "text-white" : "text-black"
     // );
   }, [data?.mainBackground, data?.buttonBackground]);
 
+  // const lightColor = tinycolor(data?.mainBackground).lighten(60).toHexString();
+
   return (
     <div
-      style={{ background: data?.mainBackground }}
-      className="w-full bg-blue-950 min-h-[100vh] max-w-lg mx-auto overflow-hidden shadow-xl"
+      style={{ background: data?.mainBackground ? data?.mainBackground : "" }}
+      className="w-full bg-blue-950 min-h-[100vh] max-w-full mx-auto overflow-hidden shadow-xl"
     >
       {/* Profile Section */}
       <motion.div

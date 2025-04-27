@@ -1,16 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useCreateCardMutation } from "../../store/apiSlice/CardSlice";
 import { FaArrowLeft } from "react-icons/fa";
 import BtnSnipper from "../../components/global/BtnSnipper";
+import { CustomError } from "../../types/types";
 
 const AddCard = () => {
   const navigate = useNavigate();
   const [nfc_type, setNfc_type] = useState("");
   const [nfc_shap, setNfc_shap] = useState("");
 
-  const [createCard, { isLoading, isSuccess, isError, error, data }] =
+  //=> Create Card
+  const [createCard, { isLoading, isSuccess, isError, error }] =
     useCreateCardMutation();
 
   const handleCreateCard = async () => {
@@ -21,15 +23,25 @@ const AddCard = () => {
 
     try {
       await createCard({ nfc_shap, nfc_type });
-
-      toast.success("Card added successfully!");
-      // navigate("/admin/view-cards");
     } catch (error) {
       console.log(error);
     }
   };
 
-  console.log({ isLoading, isSuccess, isError, error, data });
+  //=> Error Handling
+  const customError = error as CustomError;
+
+  useEffect(() => {
+    if (isError && !isSuccess && customError?.data?.message) {
+      toast.dismiss();
+      toast.error(customError.data.message);
+    }
+    if (isSuccess) {
+      toast.success("Card added successfully!");
+      setNfc_shap("");
+      setNfc_type("");
+    }
+  }, [isError, error, isSuccess, navigate]);
 
   return (
     <div className="flex flex-col items-center">

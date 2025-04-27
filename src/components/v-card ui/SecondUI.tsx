@@ -32,7 +32,7 @@ const SecondUI = ({ data }: { data: any }) => {
 
   const lightColor = tinycolor(data?.mainBackground).lighten(60).toHexString();
   return (
-    <div className="w-full max-w-lg mx-auto min-h-[100vh] bg-gradient-to-b from-gray-900 to-black text-white shadow-2xl overflow-hidden p-6 absolute right-0 top-0">
+    <div className="w-full max-w-full mx-auto min-h-[100vh] bg-gradient-to-b from-gray-900 to-black text-white shadow-2xl overflow-hidden p-6 absolute right-0 top-0">
       {/* Profile Section */}
       <motion.div
         initial={{ opacity: 0, y: -30 }}
@@ -144,31 +144,37 @@ const SecondUI = ({ data }: { data: any }) => {
           {
             icon: FaFacebook,
             color: "bg-blue-600",
+            link: data?.facebook_link,
           },
           {
             icon: FaTwitter,
             color: "bg-blue-400",
+            link: data?.twitter_link,
           },
           {
             icon: FaLinkedin,
             color: "bg-blue-700",
+            link: data?.linkedin_link,
           },
           {
             icon: FaInstagram,
             color: "bg-pink-600",
+            link: data?.instgram_link, // تأكد من الاسم الصحيح هنا!
           },
-        ].map((social, index) => (
-          <motion.a
-            key={index}
-            whileHover={{ scale: 1.1 }}
-            href="#"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`w-12 h-12 flex items-center justify-center rounded-full shadow-md text-white ${social.color} transition-transform`}
-          >
-            {social.icon({ size: 24 })}
-          </motion.a>
-        ))}
+        ]
+          .filter((social) => !!social.link) // ✅ يظهر فقط الروابط غير الفارغة
+          .map((social, index) => (
+            <motion.a
+              key={index}
+              whileHover={{ scale: 1.1 }}
+              href={social.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`w-12 h-12 flex items-center justify-center rounded-full shadow-md text-white ${social.color} transition-transform`}
+            >
+              {social.icon({ size: 24 })}
+            </motion.a>
+          ))}
       </div>
 
       {/* Buttons */}

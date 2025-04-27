@@ -1,18 +1,21 @@
 import { useNavigate } from "react-router-dom";
 import {
-  useGetSingleUserQuery,
+  useGetClientInfoQuery,
   useLogoutMutation,
 } from "../store/apiSlice/AuthSlice";
 import { motion } from "framer-motion";
 import { SoldService } from "../types/types";
 import toast from "react-hot-toast";
 import Snipper from "../components/global/Snipper";
+import QRShapeSelector from "../components/global/QrCode";
+import { useEffect } from "react";
 
 const ClientDashboard = () => {
   const navigate = useNavigate();
 
-  const { data } = useGetSingleUserQuery(undefined);
+  const { data, refetch } = useGetClientInfoQuery(undefined);
   console.log(data?.user?.soldServices);
+  console.log(data);
 
   //=> Handle click view demo
   const handleViewDemoClick = (soldServiceId: number) => {
@@ -41,22 +44,32 @@ const ClientDashboard = () => {
     }
   };
 
-  const [logout, { isError, isLoading }] = useLogoutMutation();
+  //=> Handle click logout
+  const [logout, { isError, isLoading, isSuccess: logoutIsSuccess }] =
+    useLogoutMutation();
   console.log(isError);
 
   const handleLogout = async () => {
     try {
       const loggedoutData = await logout(undefined).unwrap();
       console.log(loggedoutData);
-
-      toast.success("Logged out successfully!");
-      if (loggedoutData.message === "success") {
-        navigate("/signin?loggedOut=true");
-      }
     } catch (err) {
       toast.error("Logout failed. Try again!");
     }
   };
+
+  useEffect(() => {
+    if (logoutIsSuccess) {
+      toast.success("Logged out successfully!");
+      navigate("/signin?loggedOut=true");
+    }
+    if (isError) {
+      toast.error("Logout failed. Try again!");
+    }
+  }, [logoutIsSuccess, isError]);
+  useEffect(() => {
+    refetch();
+  }, []);
   return (
     <div className="flex flex-col items-center relative">
       {isLoading ? (
@@ -71,9 +84,9 @@ const ClientDashboard = () => {
           {data?.user?.soldServices.map((ele: SoldService) => (
             <motion.div
               key={ele.id}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.98 }}
-              className="p-6 bg-gradient-to-br from-gray-900 to-black rounded-3xl shadow-2xl border border-green-800 transition-all"
+              // whileHover={{ scale: 1.05 }}
+              // whileTap={{ scale: 0.98 }}
+              className="relative p-6 bg-gradient-to-br from-gray-900 to-black rounded-3xl shadow-2xl border border-green-800 transition-all"
             >
               <h4 className="text-xl font-bold text-center text-white mb-6 capitalize tracking-wide">
                 {ele?.type} Service
@@ -81,18 +94,27 @@ const ClientDashboard = () => {
               <div className="flex flex-col space-y-3">
                 <button
                   onClick={() => handleViewDemoClick(ele.id)}
-                  className="w-full px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-xl shadow-md transition-all"
+                  className="w-full px-6 py-3 bg-[#3a0d4e] cursor-pointer text-white text-sm font-bold rounded-xl shadow-md transition-all"
                   aria-label="View demo of this service"
                 >
                   View Demo
                 </button>
                 <button
                   onClick={() => handleEditServiceClick(ele.id, ele.type)}
-                  className="w-full px-6 py-3 bg-green-700 hover:bg-green-800 text-white text-sm font-semibold rounded-xl shadow-md transition-all"
+                  className="w-full px-6 py-3 bg-green-700 cursor-pointer text-white text-sm font-bold rounded-xl shadow-md transition-all"
                   aria-label="Edit this service"
                 >
                   Edit Service
                 </button>
+                <QRShapeSelector
+                  qrUrl={`${import.meta.env.VITE_CLIENT_URL}/${
+                    ele?.type === "vCard"
+                      ? "template"
+                      : ele?.type === "menu"
+                      ? "menu"
+                      : ""
+                  }?id=${ele?.id}`}
+                />
               </div>
             </motion.div>
           ))}

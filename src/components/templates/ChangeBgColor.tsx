@@ -1,6 +1,8 @@
 import { ChangeBgColorProps } from "../../types/types";
+import FirstUITest from "../v-card ui/FirstUiTest";
 import FourthUiTest from "../v-card ui/FourthUiTest";
 import SecondUiTest from "../v-card ui/SecondUiTest";
+import ThirdUITest from "../v-card ui/ThirdUiTest";
 
 const ChangeBgColor = ({
   tempMainBackground,
@@ -19,6 +21,22 @@ const ChangeBgColor = ({
       case "fourthUI":
         return (
           <FourthUiTest
+            formData={formData}
+            tempMainBackground={tempMainBackground}
+            tempButtonBackground={tempButtonBackground}
+          />
+        );
+      case "thirdUI":
+        return (
+          <ThirdUITest
+            formData={formData}
+            tempMainBackground={tempMainBackground}
+            tempButtonBackground={tempButtonBackground}
+          />
+        );
+      case "firstUI":
+        return (
+          <FirstUITest
             formData={formData}
             tempMainBackground={tempMainBackground}
             tempButtonBackground={tempButtonBackground}
@@ -51,7 +69,7 @@ const ChangeBgColor = ({
     setIsColorOpen(false);
   };
   return (
-    <div className="flex flex-col px-0 py-8 w-full right-0 absolute bg-[#1f0729] h-full rounded-2xl top-0 gap-1 items-center space-y-2">
+    <div className="flex flex-col px-0 py-8 w-full right-0 absolute bg-[#1f0729] h-fit top-0 gap-1 items-center space-y-2">
       {/* Controller color btns */}
       <div className="w-full max-w-xl space-y-6">
         {/* Title */}
@@ -65,7 +83,7 @@ const ChangeBgColor = ({
         </div>
 
         {/* Color Controls */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid z-10 grid-cols-1 sm:grid-cols-2 gap-4">
           {/* Main Background Color */}
           <div className="rounded-xl mx-2 w-fit h-fit shadow-lg flex items-center justify-end space-x-2">
             <span className="bg-white p-2 rounded-xl text-sm font-medium text-gray-700">

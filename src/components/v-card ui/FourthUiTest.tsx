@@ -22,21 +22,26 @@ const FourthUiTest = ({
 }) => {
   // Default text and btn color
 
-  const [textColor, setTextColor] = useState("text-black");
+  const [textColor, setTextColor] = useState("text-white");
   const [textBtnColor, setTextBtnColor] = useState("text-black");
+  console.log(textColor);
 
   useEffect(() => {
     // Function to check if color is dark Update text color
 
     setTextColor(
-      isDark(tempMainBackground || formData?.mainBackground)
-        ? "text-white"
-        : "text-black"
+      tempMainBackground || formData?.mainBackground
+        ? isDark(tempMainBackground || formData?.mainBackground)
+          ? "text-white"
+          : "text-black"
+        : "text-white"
     );
     setTextBtnColor(
-      isDark(tempButtonBackground || formData?.buttonBackground)
-        ? "text-white"
-        : "text-black"
+      tempButtonBackground || formData?.buttonBackground
+        ? isDark(tempButtonBackground || formData?.buttonBackground)
+          ? "text-white"
+          : "text-black"
+        : "text-white"
     );
   }, [
     tempMainBackground,
@@ -81,7 +86,9 @@ const FourthUiTest = ({
         <div className="relative flex justify-center">
           <img
             style={{
-              border: tempMainBackground ? `8px solid ${lightColor}` : "red",
+              border: tempMainBackground
+                ? `8px solid ${lightColor}`
+                : "8px solid #cbd5e1",
             }}
             src={formData?.image}
             alt="Profile"
@@ -89,11 +96,15 @@ const FourthUiTest = ({
           />
         </div>
         <h2
-          className={`text-3xl ${textColor} font-extrabold mt-6  drop-shadow-lg`}
+          className={`text-[23px] ${textColor} font-extrabold mt-6  drop-shadow-lg`}
         >
           {formData?.name}
         </h2>
-        <p className={`${textColor} text-lg mt-2 font-semibold`}>
+        <p
+          className={`${
+            tempMainBackground ? lightColor : "text-[#cbd5e1]"
+          } text-lg mt-2 font-semibold`}
+        >
           {formData?.job}
         </p>
       </motion.div>
@@ -110,7 +121,11 @@ const FourthUiTest = ({
         <p className={`${textColor} font-semibold text-lg italic`}>
           {formData?.bio}
         </p>
-        <p className={`text-sm mt-3 ${textColor} leading-relaxed`}>
+        <p
+          className={`text-sm mt-3 ${
+            tempMainBackground ? `text-[${lightColor}]` : "text-[#cbd5e1]"
+          } leading-relaxed`}
+        >
           {formData?.about}
         </p>
       </div>
@@ -128,8 +143,11 @@ const FourthUiTest = ({
               backgroundImage: `linear-gradient(to bottom right, #1a1a1a,${
                 tempMainBackground || formData?.mainBackground
               }, #2d2d2d)`,
+              border: `1px solid ${
+                tempButtonBackground || formData?.buttonBackground
+              }`,
             }}
-            className="flex justify-between items-center max-[390px]:flex-col max-[390px]:gap-2 bg-gray-800 p-4 rounded-lg shadow-md border border-gray-600 hover:bg-gray-700 transition"
+            className="flex justify-between items-center max-[390px]:flex-col max-[390px]:gap-2 p-4 rounded-lg shadow-md border border-gray-600 transition"
           >
             <div className="flex items-center gap-3">
               <FaPhone className={` ${textColor} text-xl`} />
@@ -148,8 +166,11 @@ const FourthUiTest = ({
               backgroundImage: `linear-gradient(to bottom right, #1a1a1a, ${
                 tempMainBackground || formData?.mainBackground
               }, #2d2d2d)`,
+              border: `1px solid ${
+                tempButtonBackground || formData?.buttonBackground
+              }`,
             }}
-            className="flex justify-between items-center max-[390px]:flex-col max-[390px]:gap-2 bg-gray-800 p-4 rounded-lg shadow-md border border-gray-600 hover:bg-gray-700 transition"
+            className="flex justify-between items-center max-[390px]:flex-col max-[390px]:gap-2 p-4 rounded-lg shadow-md border border-gray-600 transition"
           >
             <div className="flex items-center gap-3">
               <FiMapPin className={` text-xl ${textColor}`} />
@@ -195,16 +216,17 @@ const FourthUiTest = ({
 
       {/* Buttons */}
       <div className="p-6">
-        <motion.button
+        <motion.div
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           style={{
             background: tempButtonBackground || formData?.buttonBackground,
           }}
-          className={`${textBtnColor} ${formData?.buttonBackground} w-full flex items-center justify-center gap-3 py-3 bg-gradient-to-r from-[#000000] to-gray-700 cursor-pointer font-bold rounded-xl shadow-md hover:from-gray-300 transition`}
+          className={`${textBtnColor} ${formData?.buttonBackground} w-full flex items-center justify-center gap-3 py-3 bg-gradient-to-r from-[#000000] to-gray-700 cursor-pointer font-bold rounded-xl shadow-md transition`}
         >
-          <FaRegSave /> Save Contact
-        </motion.button>
+          {formData?.select ? formData?.select : "Save Contact"}
+          <FaRegSave />
+        </motion.div>
       </div>
     </div>
   );

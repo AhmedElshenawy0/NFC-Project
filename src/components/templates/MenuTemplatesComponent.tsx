@@ -40,8 +40,9 @@ const MenuTemplatesComponent: React.FC = () => {
     const formData = new FormData();
     formData.append("type", service_type);
     formData.append("uniqueCode", uniqueCode);
+    formData.append("vCardUi", "");
     menuImages.forEach((file) => {
-      formData.append("files", file); // "files" must match multer.fields config
+      formData.append("files", file);
     });
 
     try {
@@ -58,6 +59,7 @@ const MenuTemplatesComponent: React.FC = () => {
     if (isError && customError?.data?.message) {
       toast.error(customError.data.message);
     } else if (isSuccess) {
+      toast.success("Menu has created successfully");
       navigate(`/client-dashboard`);
     }
   }, [isError, isSuccess, error, data]);

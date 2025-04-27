@@ -17,6 +17,7 @@ const ProtectAuthRoute: React.FC<ProtectAuthRouteProps> = ({ children }) => {
   const navigate = useNavigate();
   const { data, isLoading, error } = useGetClientInfoQuery(undefined);
   console.log(error);
+  console.log(data);
 
   // Check if a toast has been shown to prevent duplicate toasts
   const [toastShown, setToastShown] = useState(false);
@@ -32,8 +33,6 @@ const ProtectAuthRoute: React.FC<ProtectAuthRouteProps> = ({ children }) => {
     if (isUnauthorized) {
       toast("You must sign up first.");
       navigate("/signup?message=sign-up");
-    } else if (data?.user?.soldServices?.length > 0) {
-      navigate("/client-dashboard");
     }
 
     setToastShown(true);

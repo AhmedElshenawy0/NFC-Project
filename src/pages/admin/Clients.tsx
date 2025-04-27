@@ -9,7 +9,8 @@ import {
 } from "../../store/apiSlice/AuthSlice";
 import Snipper from "../../components/global/Snipper";
 import toast from "react-hot-toast";
-import { Card, Client, SoldService } from "../../types/types";
+import { Card, Client, CustomError, SoldService } from "../../types/types";
+import BtnSnipper from "../../components/global/BtnSnipper";
 
 const Clients = () => {
   const navigate = useNavigate();
@@ -17,6 +18,10 @@ const Clients = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [editingClient, setEditingClient] = useState(null);
   const [editedData, setEditedData] = useState<any>({});
+  const [showModal, setShowModal] = useState(false);
+  const [selectedClientEmail, setSelectedClientEmail] = useState<string | null>(
+    null
+  );
 
   // Get all clients
   const { data, isLoading, isError } = useGetAllClientsQuery({
@@ -30,17 +35,28 @@ const Clients = () => {
   }, []);
 
   // Handle deleting client
-  const [deleting, { data: deleteClientData }] = useDeleteClientMutation();
+  const [deleting, { isSuccess: isDeleted, isError: deleteError }] =
+    useDeleteClientMutation();
 
   const handleDeleteClient = (email: string) => {
+    if (!email) {
+      toast.error("Invalid client email");
+      return;
+    }
     try {
       deleting(email);
-      console.log("Delete client with ID:", email);
     } catch (error) {
       console.log("Error Error");
     }
   };
-  console.log(deleteClientData);
+
+  useEffect(() => {
+    if (isDeleted) {
+      toast.success("Client deleted successfully");
+    } else if (deleteError) {
+      toast.error("Failed to delete client");
+    }
+  }, [isDeleted, deleteError]);
 
   // Enable editing by show keys as a input
   const startEditing = (client: Client) => {
@@ -55,11 +71,17 @@ const Clients = () => {
   };
 
   // Hande save changing
-  const [updateClient, { data: response, error, isSuccess }] =
-    useUpdateClientMutation();
+  const [
+    updateClient,
+    { data: response, error, isSuccess, isLoading: isUpdating },
+  ] = useUpdateClientMutation();
   console.log(isSuccess);
 
   const saveChanges = async (email: string) => {
+    if (!editedData?.email) {
+      toast.error("Email is required");
+      return;
+    }
     try {
       await updateClient({ data: editedData, email }).unwrap();
       setEditingClient(null);
@@ -69,12 +91,14 @@ const Clients = () => {
     }
   };
 
+  const customError = error as CustomError;
+
   useEffect(() => {
     if (isSuccess) {
       toast.success(`${response?.message}`);
       console.log(response);
     } else if (isError) {
-      // toast.success(`${error?.message}`);
+      toast.success(customError?.data?.message as string);
     }
   }, [error, isSuccess]);
 
@@ -129,7 +153,9 @@ const Clients = () => {
       {isLoading ? (
         <Snipper />
       ) : isError ? (
-        <p className="text-center text-red-500">Error</p>
+        <p className="text-center text-red-500">
+          Failed to load clients. Please try again later.
+        </p>
       ) : (
         <>
           <div className="text-sm text-gray-300 mb-4">
@@ -287,7 +313,7 @@ const Clients = () => {
                               onClick={() => saveChanges(client?.email)}
                               className="text-green-500 hover:text-green-600 cursor-pointer"
                             >
-                              <FaCheck />
+                              {isUpdating ? <BtnSnipper /> : <FaCheck />}
                             </button>
                             <button
                               onClick={cancelEditing}
@@ -306,7 +332,10 @@ const Clients = () => {
                         )}
 
                         <button
-                          onClick={() => handleDeleteClient(client?.email)}
+                          onClick={() => {
+                            setSelectedClientEmail(client.email);
+                            setShowModal(true);
+                          }}
                           className="text-red-500 hover:text-red-600 cursor-pointer"
                         >
                           <FaTrash />
@@ -316,6 +345,36 @@ const Clients = () => {
                   ))}
                 </tbody>
               </table>
+              {showModal && selectedClientEmail && (
+                <div className="fixed inset-0 z-50 bg-black bg-opacity-70 flex items-center justify-center">
+                  <div className="bg-white text-black rounded-xl shadow-lg p-6 w-[90%] max-w-md">
+                    <h2 className="text-xl font-semibold mb-4">
+                      Confirm Delete
+                    </h2>
+                    <p className="text-sm text-gray-600 mb-6">
+                      Are you sure you want to delete this client? This action
+                      cannot be undone.
+                    </p>
+                    <div className="flex justify-end gap-4">
+                      <button
+                        onClick={() => setShowModal(false)}
+                        className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        onClick={() => {
+                          handleDeleteClient(selectedClientEmail);
+                          setShowModal(false);
+                        }}
+                        className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           ) : (
             <p className="text-center text-gray-400 mt-12">No clients found.</p>

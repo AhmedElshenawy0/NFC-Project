@@ -17,9 +17,9 @@ export const SignIn = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const queryError = searchParams.get("error");
   const queryType = searchParams.get("type");
-  const cardId = searchParams.get("cardId") as any;
+  const cardId = searchParams.get("cardId") as string;
   const isAuth = searchParams.get("auth") === "true";
-  const gCardId = searchParams.get("gCardId") as any;
+  const gCardId = searchParams.get("gCardId") as string;
   const gType = searchParams.get("gCardType") as any;
 
   const {
@@ -30,7 +30,6 @@ export const SignIn = () => {
 
   useEffect(() => {
     if (!isSuccess || !data?.user) return;
-    console.log("check 1");
 
     // Handle query error if exist
     if (queryError) {
@@ -45,8 +44,8 @@ export const SignIn = () => {
       navigate("/admin-dashboard");
     } else if (isAuth) {
       const userSolds = data.user.soldServices ?? [];
-      const userCard = userSolds.find((ele: any) => +ele?.card_id === +gCardId);
-      console.log("here...");
+      const userCard = userSolds.find((ele: any) => ele?.card_id === gCardId);
+      console.log("here...", userCard);
 
       if (!userCard?.id) {
         if (gType === "vCard") {
@@ -89,31 +88,32 @@ export const SignIn = () => {
 
         await refetchUserInfo();
         const userSolds = result?.user?.soldServices;
-        const userCard = userSolds?.find(
-          (ele: any) => ele?.card_id === +cardId
-        );
+        const userCard = userSolds?.find((ele: any) => ele?.card_id === cardId);
 
-        if (!userCard?.id) {
-          if (queryType === "vCard") {
-            navigate(`/select-template?service-type=${queryType}`);
-          } else if (queryType === "menu") {
-            navigate(`/select-template?service-type=${queryType}`);
-          } else if (queryType === "file") {
-            navigate(`/file-template?service-type=${queryType}}`);
+        console.log(userSolds);
+        console.log(userCard);
+        console.log(cardId);
+
+        if (result?.user?.email) {
+          if (!userCard?.id) {
+            if (queryType === "vCard") {
+              navigate(`/select-template?service-type=${queryType}`);
+            } else if (queryType === "menu") {
+              navigate(`/select-template?service-type=${queryType}`);
+            } else if (queryType === "file") {
+              navigate(`/file-template?service-type=${queryType}}`);
+            }
+          } else {
+            navigate(`/client-dashboard`);
           }
-        } else {
-          navigate(`/client-dashboard`);
         }
       }
     } catch (err: any) {
-      console.log(err);
-
       toast.error(err?.data?.message || "An error occurred", {
         duration: 5000,
       });
     }
   };
-
   return (
     <div className=" flex flex-col items-center justify-center ">
       {/* Input Section */}

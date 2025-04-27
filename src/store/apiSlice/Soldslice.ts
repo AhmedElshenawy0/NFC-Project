@@ -3,9 +3,12 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const soldServiceSlice = createApi({
   reducerPath: "soldService",
   baseQuery: fetchBaseQuery({
-    baseUrl: import.meta.env.VITE_BASE_URL,
+    // baseUrl: `http://localhost:5000/api/soldServices`,
+    baseUrl: `${import.meta.env.VITE_BASE_URL}/soldServices`,
+    credentials: "include",
   }),
   tagTypes: ["SoldService"],
+
   endpoints: (builder) => ({
     getAllSoldServices: builder.query({
       query: () => `/`,
@@ -25,6 +28,14 @@ export const soldServiceSlice = createApi({
         body: data,
         credentials: "include",
       }),
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          dispatch(soldServiceSlice.util.invalidateTags(["SoldService"]));
+        } catch (err) {
+          console.error("Create failed:", err);
+        }
+      },
       invalidatesTags: ["SoldService"],
     }),
 
@@ -38,7 +49,7 @@ export const soldServiceSlice = createApi({
         try {
           const { data: updatedSoldService } = await queryFulfilled;
 
-          // ✅ Update the single SoldService in cache
+          //  Update SoldService
           dispatch(
             soldServiceSlice.util.updateQueryData(
               "getOneSoldServices",

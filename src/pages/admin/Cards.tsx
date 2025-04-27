@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { FaArrowLeft, FaTrash } from "react-icons/fa";
+import { useEffect, useMemo, useState } from "react";
+import { FaArrowLeft } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import Typewriter from "typewriter-effect";
@@ -9,64 +9,89 @@ import {
 } from "../../store/apiSlice/CardSlice";
 import Snipper from "../../components/global/Snipper";
 import { Card, CustomError } from "../../types/types";
+import BtnSnipper from "../../components/global/BtnSnipper";
+import { FaUnlockAlt } from "react-icons/fa";
 
 const Cards = () => {
   const navigate = useNavigate();
   const [shouldFetchCards, setShouldFetchCards] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedCard, setSelectedCard] = useState<Card | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState("All");
 
   const { data, isLoading } = useGetAllCardsQuery(undefined, {
     skip: !shouldFetchCards,
   });
-  console.log(data?.cards);
+
+  console.log(data);
 
   useEffect(() => {
     setShouldFetchCards(true);
   }, []);
 
-  const [selectedCategory, setSelectedCategory] = useState("All");
-
-  const categories: any = [
+  const categories: any[] = [
     "All",
-    ...new Set(data?.cards?.map((card: any) => card.nfc_type)),
+    ...new Set(data?.cards?.map((card: Card) => card.nfc_type)),
   ];
 
-  const filteredCards =
-    selectedCategory === "All"
-      ? data?.cards
-      : data?.cards.filter((card: any) => card.nfc_type === selectedCategory);
+  const sortedCards = useMemo(() => {
+    if (!Array.isArray(data?.cards)) return [];
 
-  console.log(categories);
-  console.log(filteredCards);
-  console.log(selectedCategory);
+    const filtered =
+      selectedCategory === "All"
+        ? data.cards
+        : data.cards.filter((card: Card) => card.nfc_type === selectedCategory);
 
-  // Deleting card
-  const [deleting, { isSuccess, isError, error }] = useDeleteCardMutation();
+    return filtered.slice().sort((a: any, b: any) => {
+      return Number(Boolean(b.client)) - Number(Boolean(a.client));
+    });
+  }, [data?.cards, selectedCategory]);
 
-  const handleDeleteCard = async (unique_code: string) => {
+  const [deleteCard, { isSuccess, isError, error, isLoading: isUnassigning }] =
+    useDeleteCardMutation();
+
+  const handleDeleteCard = async (card: Card) => {
+    if (!card?.client_id) {
+      toast.error("This card has not been assigned to any client.");
+      return;
+    }
+    if (isUnassigning) return;
+
     try {
-      await deleting(unique_code);
-    } catch (error) {
-      console.log(error);
+      await deleteCard(card.unique_code).unwrap();
+      setShowModal(false);
+    } catch (err) {
+      console.error("Delete Error:", err);
+      toast.error("Failed to Deactivate card. Please try again.");
     }
   };
 
   const customError = error as CustomError;
-  console.log(error);
 
   useEffect(() => {
     if (isError) {
-      toast.error((error as any)?.data?.message);
+      const msg =
+        (customError?.data?.message as string) || "Deactivate failed.";
+      toast.error(msg);
     } else if (isSuccess) {
-      toast.success("Card deleted successfully");
+      toast.success("Card Deactivated successfully.");
     }
-  }, [error, isSuccess, isError, customError]);
+  }, [isError, isSuccess, error]);
+
+  // if (!isLoading && (!data || !data.cards)) {
+  //   return (
+  //     <div className="text-center text-red-400 mt-12">
+  //       Failed to load cards. Please try again later.
+  //     </div>
+  //   );
+  // }
+
   return (
-    <div className="">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row items-center justify-between ">
+    <div>
+      <div className="flex flex-col sm:flex-row items-center justify-between">
         <button
           onClick={() => navigate("/admin-dashboard")}
-          className="p-2 bg-green-950 rounded-full absolute top-8 right-6 flex items-center cursor-pointer space-x-2 text-gray-400 hover:text-white transition"
+          className="p-2 bg-green-950 rounded-full absolute top-8 right-6 text-gray-400 hover:text-white transition"
         >
           <FaArrowLeft color="white" />
         </button>
@@ -80,80 +105,140 @@ const Cards = () => {
           />
         </h1>
       </div>
+
       <div className="text-sm text-gray-300 mb-4">
-        Total Cards: {filteredCards?.length || 0}
+        Total Cards: {sortedCards?.length || 0}
       </div>
-      {/* Category Filter */}
+
       <div className="flex flex-wrap gap-4 mb-8 justify-center sm:justify-start">
-        {categories.map((card: any) => (
+        {categories.map((cardType) => (
           <button
-            key={card}
-            onClick={() => setSelectedCategory(card)}
-            className={`px-3 cursor-pointer py-2 min-w-[22%] rounded-full transition ${
-              selectedCategory === card
+            key={cardType}
+            onClick={() => setSelectedCategory(cardType)}
+            className={`px-3 py-2 min-w-[22%] rounded-full transition ${
+              selectedCategory === cardType
                 ? "bg-green-700 text-white"
-                : "bg-gray-700 hover:bg-gray-600"
+                : "bg-gray-700 hover:bg-gray-600 text-white"
             }`}
           >
-            {card}
+            {cardType}
           </button>
         ))}
       </div>
 
-      {/* Cards  */}
       {isLoading ? (
         <Snipper />
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 ">
-          {filteredCards?.map((card: Card, i: number) => (
-            <div
-              key={card?.id}
-              className="relative bg-gradient-to-br from-gray-900 to-black rounded-3xl p-6 shadow-xl hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 border border-gray-800"
-            >
-              <div className="absolute top-4 right-4 text-xs text-gray-500">
-                #{i + 1}
-              </div>
-              <h2 className="text-xl font-bold text-white mb-4 uppercase tracking-wide">
-                {card?.nfc_type}
-              </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {Array.isArray(sortedCards) &&
+            sortedCards.map((card, i) => (
+              <div
+                key={card.id}
+                className="relative bg-gradient-to-br from-gray-900 to-black rounded-3xl p-6 shadow-xl hover:shadow-2xl transition-all border border-gray-800"
+              >
+                <div className="absolute top-4 right-4 text-xs text-gray-500">
+                  #{i + 1}
+                </div>
+                <h2 className="text-xl font-bold text-white mb-4 uppercase tracking-wide">
+                  {card.nfc_type}
+                </h2>
+                <p className="text-gray-400 mb-1">
+                  <span className="font-medium text-white">Shape:</span>{" "}
+                  {card.nfc_shap}
+                </p>
+                <p className="text-gray-400">
+                  <span className="font-medium text-white">Owner:</span>{" "}
+                  {card.client?.first_name ? (
+                    `${card.client.first_name} ${card.client.last_name}`
+                  ) : (
+                    <span className="italic text-red-400 font-semibold">
+                      Not Active
+                    </span>
+                  )}
+                </p>
 
-              <p className="text-gray-400 mb-1">
-                <span className="font-medium text-white">Shape:</span>{" "}
-                {card?.nfc_shap}
-              </p>
-              <p className="text-gray-400">
-                <span className="font-medium text-white">Owner:</span>{" "}
-                {card?.client?.first_name ? (
-                  `${card?.client?.first_name} ${card?.client?.last_name}`
-                ) : (
-                  <span className="italic text-red-400 font-semibold">
-                    Not Active
-                  </span>
-                )}
-              </p>
+                <div className="flex flex-col gap-2 mt-6 w-full">
+                  {card?.client_id ? (
+                    <button
+                      onClick={() => {
+                        setSelectedCard(card);
+                        setShowModal(true);
+                      }}
+                      className="w-full font-medium bg-red-700 hover:bg-red-800 text-white px-5 py-2 rounded-xl flex justify-center items-center gap-2"
+                    >
+                      <FaUnlockAlt />
 
-              <div className="flex w-full justify-between items-center mt-6 gap-2">
-                <button
-                  onClick={() => handleDeleteCard(card?.unique_code)}
-                  className="flex min-w-[50%]  font-medium justify-center mx-auto items-center space-x-2 bg-red-700 hover:bg-red-800 text-white px-5 py-2 rounded-xl transition-all"
-                >
-                  <FaTrash />
-                  <span className="text-sm">Delete card</span>
-                </button>
+                      <span className="text-sm">Deactivate</span>
+                    </button>
+                  ) : (
+                    ""
+                  )}
+
+                  <button
+                    onClick={() => {
+                      if (!card.unique_code) return toast.error("Invalid card");
+                      navigator.clipboard
+                        .writeText(
+                          `${window.location.origin}?unique_code=${card.unique_code}`
+                        )
+                        .then(() =>
+                          toast.success("Link copied to clipboard 🔗")
+                        );
+                    }}
+                    className="w-full font-medium bg-blue-700 hover:bg-blue-800 text-white px-5 py-2 rounded-xl flex justify-center items-center gap-2"
+                  >
+                    🔗 <span className="text-sm">Generate Link</span>
+                  </button>
+
+                  {showModal && selectedCard?.id === card.id && (
+                    <div className="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center">
+                      <div className="bg-white text-black rounded-xl p-6 w-[90%] max-w-md shadow-lg">
+                        <h2 className="text-xl font-semibold mb-4">
+                          Are you sure you want to unassign this card?
+                        </h2>
+                        <p className="text-sm text-gray-500 mb-6">
+                          This will disconnect the assigned client. This action
+                          cannot be undone.
+                        </p>
+                        <div className="flex flex-col gap-2">
+                          <button
+                            onClick={() => setShowModal(false)}
+                            className="px-6 py-3 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition"
+                          >
+                            Cancel
+                          </button>
+                          <button
+                            onClick={() => handleDeleteCard(card)}
+                            disabled={isUnassigning}
+                            className={`px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition ${
+                              isUnassigning
+                                ? "cursor-not-allowed opacity-50"
+                                : ""
+                            }`}
+                          >
+                            {isUnassigning ? (
+                              <div className="flex items-center justify-center gap-2 text-center">
+                                <BtnSnipper />
+                                Deactivating...
+                              </div>
+                            ) : (
+                              "Deactivate"
+                            )}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
         </div>
       )}
 
-      {/* Empty State */}
-      {filteredCards?.length === 0 && (
+      {sortedCards?.length === 0 && (
         <p className="text-center text-gray-400 mt-12">
-          No cards available.
-          <Link
-            to="/admin/add-card"
-            className=" cursor-pointer text-blue-400 hover:underline"
-          >
+          No cards available.{" "}
+          <Link to="/admin/add-card" className="text-blue-400 hover:underline">
             Add a new card
           </Link>
           .

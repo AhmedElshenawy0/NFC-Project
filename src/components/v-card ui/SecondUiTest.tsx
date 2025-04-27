@@ -22,20 +22,24 @@ const SecondUiTest = ({
   tempButtonBackground: any;
 }) => {
   // Default text and btn color
-  const [textColor, setTextColor] = useState("text-black");
+  const [textColor, setTextColor] = useState("text-white");
   const [textBtnColor, setTextBtnColor] = useState("text-black");
 
   useEffect(() => {
     // check if color is dark Update text color
 
     setTextColor(
-      isDark(tempMainBackground || formData?.mainBackground)
-        ? "text-white"
-        : "text-black"
+      tempMainBackground || formData?.mainBackground
+        ? isDark(tempMainBackground || formData?.mainBackground)
+          ? "text-white"
+          : "text-black"
+        : "text-white"
     );
     setTextBtnColor(
-      isDark(tempButtonBackground || formData?.buttonBackground)
-        ? "text-white"
+      tempButtonBackground || formData?.buttonBackground
+        ? isDark(tempButtonBackground || formData?.buttonBackground)
+          ? "text-white"
+          : "text-black"
         : "text-black"
     );
   }, [
@@ -69,20 +73,17 @@ const SecondUiTest = ({
             src={formData?.image}
             alt="Profile"
             style={{
-              border: tempMainBackground ? `8px solid ${lightColor}` : "red",
+              border: tempMainBackground && `8px solid ${lightColor}`,
             }}
             className="w-48 h-48 object-cover object-top rounded-full border-8 border-purple-400 shadow-xl transform hover:scale-110 transition-transform duration-300"
           />
         </div>
         <h2
-          className={`text-3xl font-extrabold mt-6 ${textColor} drop-shadow-lg`}
+          className={`text-2xl font-extrabold mt-6 ${textColor} drop-shadow-lg`}
         >
           {formData?.name}
         </h2>
-        <p
-          style={{ color: lightColor }}
-          className="text-purple-300 text-lg mt-2 font-semibold"
-        >
+        <p className={` ${textColor} text-lg mt-2 font-semibold`}>
           {formData?.job}
         </p>
       </motion.div>
@@ -112,7 +113,7 @@ const SecondUiTest = ({
           <motion.a
             whileHover={{ scale: 1.05 }}
             href={`tel:+${formData?.phone}`}
-            className="flex justify-between items-center max-[390px]:flex-col max-[390px]:gap-2 bg-gray-800 p-4 rounded-lg shadow-md hover:bg-purple-700 transition"
+            className="flex justify-between items-center max-[390px]:flex-col max-[390px]:gap-2 bg-gray-800 p-4 rounded-lg shadow-md  transition"
           >
             <div className="flex items-center gap-3">
               <FaPhone
@@ -133,7 +134,7 @@ const SecondUiTest = ({
             whileHover={{ scale: 1.05 }}
             href={""}
             target="_blank"
-            className="flex justify-between items-center max-[390px]:flex-col max-[390px]:gap-2 bg-gray-800 p-4 rounded-lg shadow-md hover:bg-purple-700 transition"
+            className="flex justify-between items-center max-[390px]:flex-col max-[390px]:gap-2 bg-gray-800 p-4 rounded-lg shadow-md  transition"
           >
             <div className="flex items-center gap-3">
               <FiMapPin
@@ -187,7 +188,7 @@ const SecondUiTest = ({
 
       {/* Buttons */}
       <div className="p-6">
-        <motion.button
+        <motion.div
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           style={{
@@ -195,10 +196,12 @@ const SecondUiTest = ({
               tempButtonBackground || formData?.buttonBackground
             },  #1a1a1a)`,
           }}
-          className={`w-full flex items-center justify-center gap-3 py-3 ${textBtnColor} bg-gradient-to-r from-purple-500 to-purple-700 font-bold rounded-xl shadow-md transition`}
+          className={`w-full cursor-pointer flex items-center justify-center gap-3 py-3 ${textBtnColor} bg-gradient-to-r from-purple-500 to-purple-700 font-bold rounded-xl shadow-md transition`}
         >
-          <FaRegSave /> Save Contact
-        </motion.button>
+          {formData?.select ? formData?.select : "Save Contact"}
+
+          <FaRegSave />
+        </motion.div>
       </div>
     </div>
   );

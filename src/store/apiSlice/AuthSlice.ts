@@ -3,7 +3,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const authSlice = createApi({
   reducerPath: "auth",
   baseQuery: fetchBaseQuery({
-    baseUrl: import.meta.env.VITE_BASE_URL,
+    // baseUrl: `http://localhost:5000/api/auth`,
+    baseUrl: `${import.meta.env.VITE_BASE_URL}/api/auth`,
     credentials: "include",
   }),
   tagTypes: ["clients"],
@@ -26,7 +27,6 @@ export const authSlice = createApi({
         try {
           const { data } = await queryFulfilled;
 
-          // ✅ تحديث كاش getClientInfo مباشرة بعد تسجيل الدخول
           dispatch(
             authSlice.util.updateQueryData(
               "getClientInfo",
@@ -44,7 +44,22 @@ export const authSlice = createApi({
         url: "/logout",
         method: "POST",
       }),
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+
+          // ✅ Reset the cache of all queries (optional but good practice)
+          dispatch(authSlice.util.resetApiState());
+
+          // ✅ Optional: clear localStorage/sessionStorage
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
+        } catch (err) {
+          console.error("Logout error:", err);
+        }
+      },
     }),
+
     getUserInfo: builder.query({
       query: () => ({
         url: "/user-info",

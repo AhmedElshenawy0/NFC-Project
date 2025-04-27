@@ -31,7 +31,7 @@ const ThirdUI = ({ data }: { data: any }) => {
   return (
     <div
       style={{ background: data?.mainBackground }}
-      className={`min-h-screen max-w-lg mx-auto flex bg-${data?.mainBackground} text-white p-6`}
+      className={`min-h-screen max-w-full mx-auto flex bg-${data?.mainBackground} text-white p-6`}
     >
       <motion.div
         initial={{ opacity: 0, y: 50 }}

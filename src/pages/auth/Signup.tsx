@@ -55,7 +55,9 @@ const Signup = () => {
       toast.success("Registration successful! Welcome aboard!", {
         duration: 5000,
       });
-      navigate(`/signin?type=${queryType}&cardId=${queryId}`);
+      navigate(
+        `/signin?type=${queryType}&cardId=${queryId}&clietId=${result?.user?.id}`
+      );
     } catch (err: any) {
       console.error("Error signing up:", err);
     }
@@ -71,6 +73,14 @@ const Signup = () => {
       navigate(`/signin?type=${queryType}&cardId=${queryId}`);
     }
   }, [error]);
+
+  useEffect(() => {
+    if (!queryType || !queryId) {
+      toast.error("There is no creditials.");
+      navigate("/");
+    }
+  }, []);
+
   return (
     <div className="flex flex-col items-center">
       {/* Input Section */}
@@ -212,6 +222,7 @@ const Signup = () => {
       <div className="text-center w-full max-w-md mt-8">
         <button
           onClick={handleSignUpClick}
+          disabled={isLoading}
           className="inline-block cursor-pointer px-8 py-3 bg-green-800 text-gray-100 w-full text-sm font-semibold rounded-lg shadow-lg hover:bg-green-900 transition"
         >
           {isLoading ? <BtnSnipper /> : "Sign Up Now"}
