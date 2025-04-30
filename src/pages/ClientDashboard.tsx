@@ -48,28 +48,34 @@ const ClientDashboard = () => {
   const [logout, { isError, isLoading, isSuccess: logoutIsSuccess }] =
     useLogoutMutation();
   console.log(isError);
+  console.log(logoutIsSuccess);
 
   const handleLogout = async () => {
     try {
       const loggedoutData = await logout(undefined).unwrap();
       console.log(loggedoutData);
+      if (loggedoutData?.message === "success") {
+        toast.success("Logged out successfully!");
+        navigate("/signin?loggedOut=true");
+      }
     } catch (err) {
       toast.error("Logout failed. Try again!");
     }
   };
 
   useEffect(() => {
-    if (logoutIsSuccess) {
-      toast.success("Logged out successfully!");
-      navigate("/signin?loggedOut=true");
-    }
+    // if (logoutIsSuccess) {
+    //   toast.success("Logged out successfully!");
+    //   navigate("/signin?loggedOut=true");
+    // }
     if (isError) {
       toast.error("Logout failed. Try again!");
     }
-  }, [logoutIsSuccess, isError]);
+  }, [logoutIsSuccess, isError, navigate]);
+
   useEffect(() => {
     refetch();
-  }, []);
+  }, [logoutIsSuccess]);
   return (
     <div className="flex flex-col items-center relative">
       {isLoading ? (

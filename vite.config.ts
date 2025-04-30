@@ -8,4 +8,9 @@ export default defineConfig({
   optimizeDeps: {
     include: ["qrcode"],
   },
+  server: {
+    proxy: {
+      "/api": "http://localhost:5000",
+    },
+  },
 });

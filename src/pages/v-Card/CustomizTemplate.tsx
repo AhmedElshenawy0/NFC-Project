@@ -31,6 +31,7 @@ const CustomizeTemplate = () => {
     mainBackground: "",
     buttonBackground: "",
   });
+  console.log(formData);
 
   const [createSoldService, { isError, isSuccess, error, data, isLoading }] =
     useCreateSoldServiceMutation();
@@ -151,24 +152,24 @@ const CustomizeTemplate = () => {
                 {key === "bio" &&
                   ((formData as any)[key].length < 70 ||
                     (formData as any)[key].length > 120) && (
-                    <p className="text-yellow-400 text-xs mt-1 font-semibold">
+                    <div className="text-yellow-400 text-xs mt-1 font-semibold">
                       <p className="text-gray-400">
                         Characters: {(formData as any)[key].length}
                       </p>
                       Recommended: 70–120 characters for a concise and catchy
                       bio.
-                    </p>
+                    </div>
                   )}
                 {key === "about" &&
                   ((formData as any)[key].length < 200 ||
                     (formData as any)[key].length > 300) && (
-                    <p className="text-yellow-400 text-xs mt-1 font-semibold">
+                    <div className="text-yellow-400 text-xs mt-1 font-semibold">
                       <p className="text-gray-400">
                         Characters: {(formData as any)[key].length}
                       </p>
                       Recommended: 200–300 characters for a strong personal
                       introduction.
-                    </p>
+                    </div>
                   )}
                 {key === "facebook_link" && !(formData as any)[key] && (
                   <p className="text-yellow-400 text-xs mt-1 font-semibold">

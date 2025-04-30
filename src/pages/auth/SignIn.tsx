@@ -3,6 +3,7 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import {
   useGetClientInfoQuery,
   useSignInMutation,
+  useCheckUserRoleMutation,
 } from "../../store/apiSlice/AuthSlice";
 import { signInValidation } from "../../utils/validation";
 import toast from "react-hot-toast";
@@ -64,6 +65,8 @@ export const SignIn = () => {
   // Handle Sign In
   const [signIn, { isLoading }] = useSignInMutation();
 
+  const [checkUserRole] = useCheckUserRoleMutation();
+
   const handleSignInClick = async () => {
     // => Validation
     const validation = signInValidation.safeParse({ email, password });
@@ -76,36 +79,44 @@ export const SignIn = () => {
     }
 
     try {
-      if (!queryType || !cardId) {
-        toast.error("There is no credintial");
-      } else {
-        const result = await signIn({ email, password }).unwrap();
-        console.log(result);
+      const res = await checkUserRole(email).unwrap();
+      console.log(res);
 
-        toast.success(`${result.message}`, {
-          duration: 5000,
-        });
+      if (res?.client?.role !== "admin") {
+        if (!queryType || !cardId) {
+          toast.error("There are no credentials for your card.", {
+            duration: 5000,
+          });
+        }
+        return;
+      }
 
-        await refetchUserInfo();
-        const userSolds = result?.user?.soldServices;
-        const userCard = userSolds?.find((ele: any) => ele?.card_id === cardId);
+      const result = await signIn({ email, password }).unwrap();
+      console.log(result);
 
-        console.log(userSolds);
-        console.log(userCard);
-        console.log(cardId);
+      toast.success(`${result.message}`, {
+        duration: 5000,
+      });
 
-        if (result?.user?.email) {
-          if (!userCard?.id) {
-            if (queryType === "vCard") {
-              navigate(`/select-template?service-type=${queryType}`);
-            } else if (queryType === "menu") {
-              navigate(`/select-template?service-type=${queryType}`);
-            } else if (queryType === "file") {
-              navigate(`/file-template?service-type=${queryType}}`);
-            }
-          } else {
-            navigate(`/client-dashboard`);
+      await refetchUserInfo();
+      const userSolds = result?.user?.soldServices;
+      const userCard = userSolds?.find((ele: any) => ele?.card_id === cardId);
+
+      console.log(userSolds);
+      console.log(userCard);
+      console.log(cardId);
+
+      if (result?.user?.email) {
+        if (!userCard?.id) {
+          if (queryType === "vCard") {
+            navigate(`/select-template?service-type=${queryType}`);
+          } else if (queryType === "menu") {
+            navigate(`/select-template?service-type=${queryType}`);
+          } else if (queryType === "file") {
+            navigate(`/file-template?service-type=${queryType}}`);
           }
+        } else {
+          navigate(`/client-dashboard`);
         }
       }
     } catch (err: any) {

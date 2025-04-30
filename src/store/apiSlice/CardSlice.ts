@@ -3,8 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const cardSlice = createApi({
   reducerPath: "card",
   baseQuery: fetchBaseQuery({
-    // baseUrl: `http://localhost:5000/api/cards`,
-    baseUrl: `${import.meta.env.VITE_BASE_URL}/api/cards`,
+    baseUrl: `/api/cards`,
     credentials: "include",
   }),
   tagTypes: ["cards"],

@@ -74,10 +74,10 @@ const SecondUI = ({ data }: { data: any }) => {
       </motion.div>
 
       {/* Info Section */}
-      <div className="p-6 text-center bg-opacity-10 backdrop-blur-md rounded-lg">
+      <div className="p-6 text-center bg-opacity-10 backdrop-blur-md rounded-lg ">
         <p
           style={{ color: data?.mainBackground ? lightColor : "" }}
-          className="text-purple-300 font-semibold text-lg italic"
+          className="text-purple-300 font-semibold text-lg italic leading-relaxed w-full"
         >
           {data?.bio}
         </p>

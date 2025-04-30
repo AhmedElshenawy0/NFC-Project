@@ -3,13 +3,18 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const authSlice = createApi({
   reducerPath: "auth",
   baseQuery: fetchBaseQuery({
-    // baseUrl: `http://localhost:5000/api/auth`,
-    baseUrl: `${import.meta.env.VITE_BASE_URL}/api/auth`,
+    baseUrl: `/api/auth`,
     credentials: "include",
   }),
   tagTypes: ["clients"],
 
   endpoints: (builder) => ({
+    checkUserRole: builder.mutation({
+      query: (email) => ({
+        url: `/check-user-role/${email}`,
+        method: "GET",
+      }),
+    }),
     signUp: builder.mutation({
       query: (data) => ({
         url: "/register",
@@ -117,4 +122,5 @@ export const {
   useUpdateClientMutation,
   useDeleteClientMutation,
   useGetClientInfoQuery,
+  useCheckUserRoleMutation,
 } = authSlice;

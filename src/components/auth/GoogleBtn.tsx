@@ -7,9 +7,7 @@ const GoogleLoginButton = ({ cardId, type }: any) => {
       toast.error("There is no credintial");
     } else {
       window.open(
-        `${
-          import.meta.env.VITE_BASE_URL
-        }/api/auth/google?cardType=${type}&cardId=${cardId}`,
+        `/api/auth/google?cardType=${type}&cardId=${cardId}`,
         "_self"
       );
     }

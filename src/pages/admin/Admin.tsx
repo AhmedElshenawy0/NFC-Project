@@ -33,9 +33,11 @@ export const AdminDashboard = () => {
     if (logoutIsSuccess) {
       toast.success("Logged out successfully!");
       navigate("/signin?loggedOut=true");
+      console.log("logout true");
     }
     if (isError) {
       toast.error("Logout failed. Try again!");
+      console.log("logout true");
     }
   }, [logoutIsSuccess, isError, navigate]);
 
@@ -61,13 +63,28 @@ export const AdminDashboard = () => {
       );
     }
     if (fetchClientsError) {
-      toast.error(
-        (fetchClientsError as any)?.data?.message || "Error loading clients"
-      );
+      if (isClientsLoading) return;
+      if (
+        (fetchClientsError as any)?.data?.message ===
+        "Access Forbidden: Admins only"
+      ) {
+        navigate("/signin");
+        console.log("access forbidden");
+
+        // toast.error(
+        //   (fetchClientsError as any)?.data?.message || "Error loading clients"
+        // );
+        return;
+      } else {
+        toast.error(
+          (fetchClientsError as any)?.data?.message || "Error loading clients"
+        );
+      }
+      return;
     }
   }, [fetchClientsError, fetchCardsError]);
 
-  //=> Handle loging fetch cards and clients
+  //=> Handle loading fetch cards and clients
   if (isCardsLoading || isClientsLoading) {
     return (
       <div className="text-center text-gray-400">

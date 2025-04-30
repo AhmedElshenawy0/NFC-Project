@@ -32,7 +32,7 @@ const ProtectAuthRoute: React.FC<ProtectAuthRouteProps> = ({ children }) => {
 
     if (isUnauthorized) {
       toast("You must sign up first.");
-      navigate("/signup?message=sign-up");
+      navigate("/");
     }
 
     setToastShown(true);

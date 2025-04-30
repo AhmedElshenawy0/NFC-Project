@@ -64,7 +64,7 @@ const RootLayout = () => {
       {/* Input Section */}
       <div className="w-full max-w-md mb-8">
         <label className="block text-sm text-gray-400 mb-2">
-          Copy Your Code
+          Copy Your Codee
         </label>
         <input
           type="text"

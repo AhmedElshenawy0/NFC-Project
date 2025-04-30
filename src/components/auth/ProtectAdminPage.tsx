@@ -15,7 +15,7 @@ interface ApiError {
 
 const ProtectAdminPage: React.FC<ProtectAdminPageProps> = ({ children }) => {
   const navigate = useNavigate();
-  const { data, isLoading, error } = useGetClientInfoQuery(undefined);
+  const { data, isLoading, error, isError } = useGetClientInfoQuery(undefined);
   console.log(error);
 
   // Check if a toast has been shown to prevent duplicate toasts
@@ -25,20 +25,26 @@ const ProtectAdminPage: React.FC<ProtectAdminPageProps> = ({ children }) => {
     if (toastShown || isLoading) return;
 
     if (data?.user?.email) {
-      if (data?.user?.role === "admin") {
-        toast.success("Welcom to your dashboard.");
-      } else {
-        navigate("/", { replace: true });
+      if (data?.user?.role !== "admin") {
+        console.log("admin only");
+
         toast.error("Access Forbidden: Admins only");
-        console.log(data);
+        console.log("access forbidden");
+
+        setTimeout(() => {
+          navigate("/", { replace: true });
+        }, 1000);
       }
       setToastShown(true);
-    } else if ((error as ApiError)?.data?.message === "Unauthorized") {
+      return;
+    }
+    if ((error as ApiError | any)?.data?.message === "Unauthorized") {
       toast.error("You must sign in first.");
       navigate("/signin");
       setToastShown(true);
+      return;
     }
-  }, [data, error, navigate, isLoading, toastShown]);
+  }, [data, error, navigate, isLoading, toastShown, isError]);
 
   if (isLoading) return <Snipper />;
 
