@@ -68,7 +68,7 @@ const RootLayout = () => {
         </label>
         <input
           type="text"
-          placeholder="Your unique code"
+          placeholder="Your Unique Code"
           className="w-full px-4 py-2 rounded-lg bg-gray-800 text-gray-200 placeholder-gray-500 border border-gray-700 focus:outline-none focus:border-transparent"
           value={unique_code || ""}
           readOnly
