@@ -117,6 +117,7 @@ const CustomizeTemplate = () => {
             onChange={handleImageUpload}
             className="hidden"
           />
+          <p className="mt-2 text-sm text-gray-500">Max image size: 3MB</p>
         </div>
 
         {/* All Text Fields */}

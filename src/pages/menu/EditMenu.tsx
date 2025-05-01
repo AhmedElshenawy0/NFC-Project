@@ -95,7 +95,11 @@ const EditMenu: React.FC = () => {
             htmlFor="image"
             className="text-gray-300 cursor-pointer flex flex-col-reverse"
           >
+            <p className="mt-2 text-sm text-gray-500">
+              Max image size: 3MB for each image
+            </p>
             <span>Click here to Upload images</span>
+
             <FiUploadCloud size={30} className="mx-auto text-purple-500" />
           </label>
           <input

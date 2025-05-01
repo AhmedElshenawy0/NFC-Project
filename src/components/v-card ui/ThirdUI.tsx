@@ -17,16 +17,16 @@ const ThirdUI = ({ data }: { data: any }) => {
 
   // Default text and btn color
   const [textColor, setTextColor] = useState("text-gray-300");
-  // const [textBtnColor, setTextBtnColor] = useState("text-gray-300");
+  const [textBtnColor, setTextBtnColor] = useState("text-gray-300");
 
   useEffect(() => {
     // check if color is dark Update text color
     setTextColor(
       isDark(data?.mainBackground) ? "text-gray-300" : "text-gray-900"
     );
-    // setTextBtnColor(
-    //   isDark(data?.buttonBackground) ? "text-gray-300" : "text-gray-900"
-    // );
+    setTextBtnColor(
+      isDark(data?.buttonBackground) ? "text-gray-300" : "text-gray-900"
+    );
   }, [data?.mainBackground, data?.buttonBackground]);
   return (
     <div
@@ -120,7 +120,9 @@ const ThirdUI = ({ data }: { data: any }) => {
           <button
             onClick={() => handleSaveContact(data)}
             style={{ background: data?.buttonBackground }}
-            className={`w-full py-3 ${textColor} font-semibold text-lg rounded-lg shadow-xl transition transform hover:scale-105 `}
+            className={`w-full py-3 ${
+              data?.buttonBackground ? textBtnColor : ""
+            } font-semibold text-lg rounded-lg shadow-xl transition transform hover:scale-105 `}
           >
             Save Contact
           </button>

@@ -69,7 +69,7 @@ const ChangeBgColor = ({
     setIsColorOpen(false);
   };
   return (
-    <div className="flex flex-col px-0 py-8 w-full right-0 absolute bg-[#1f0729] h-fit top-0 gap-1 items-center space-y-2">
+    <div className="flex flex-col px-0 py-8 w-full z-50 right-0 absolute bg-[#1f0729] h-fit top-0 gap-1 items-center space-y-2">
       {/* Controller color btns */}
       <div className="w-full max-w-xl space-y-6">
         {/* Title */}

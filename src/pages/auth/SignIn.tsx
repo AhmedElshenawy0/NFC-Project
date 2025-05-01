@@ -87,9 +87,11 @@ export const SignIn = () => {
           toast.error("There are no credentials for your card.", {
             duration: 5000,
           });
+          return;
         }
-        return;
+        console.log("error 111");
       }
+      console.log("error 222");
 
       const result = await signIn({ email, password }).unwrap();
       console.log(result);
