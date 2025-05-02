@@ -58,7 +58,7 @@ const ThirdUI = ({ data }: { data: any }) => {
                 data?.mainBackground &&
                 `linear-gradient(to top, ${data.mainBackground}, transparent)`,
             }}
-            className={`absolute -bottom-[15px] w-full  bg-gradient-to-t from-black to-transparent p-6 text-center`}
+            className={`absolute bottom-0 w-full  bg-gradient-to-t from-black to-transparent p-6 text-center`}
           >
             <h2 className="text-white text-2xl font-bold">{data?.name}</h2>
             <p className="text-gold-500 text-lg font-medium">{data.job}</p>
