@@ -38,9 +38,11 @@ const ThirdUI = ({ data }: { data: any }) => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
         style={{
-          backgroundImage: `linear-gradient(to bottom right, #1a1a1a, ${
-            data?.mainBackground || "#ffffff"
-          }, #2d2d2d)`,
+          backgroundImage:
+            data?.mainBackground &&
+            `linear-gradient(to bottom right, #1a1a1a, ${
+              data?.mainBackground || "#ffffff"
+            }, #2d2d2d)`,
         }}
         className={`w-full max-w-lg bg-gradient-to-br from-gray-900  to-gray-800 shadow-2xl rounded-2xl overflow-hidden p-6 border border-gray-700`}
       >
@@ -51,9 +53,12 @@ const ThirdUI = ({ data }: { data: any }) => {
             className="w-full h-72 object-cover rounded-lg shadow-lg"
           />
           <div
-            className={`absolute -bottom-[15px] w-full  bg-gradient-to-t from-[${
-              data?.mainBackground ? data?.mainBackground : "black"
-            }]  to-transparent p-6 text-center`}
+            style={{
+              backgroundImage:
+                data?.mainBackground &&
+                `linear-gradient(to top, ${data.mainBackground}, transparent)`,
+            }}
+            className={`absolute -bottom-[15px] w-full  bg-gradient-to-t from-black to-transparent p-6 text-center`}
           >
             <h2 className="text-white text-2xl font-bold">{data?.name}</h2>
             <p className="text-gold-500 text-lg font-medium">{data.job}</p>
