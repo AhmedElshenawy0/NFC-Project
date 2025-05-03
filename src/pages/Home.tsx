@@ -4,6 +4,7 @@ import { useVerifyCardQuery } from "../store/apiSlice/CardSlice";
 import toast from "react-hot-toast";
 import { CustomError } from "../types/types";
 import Snipper from "../components/global/Snipper";
+import copy from "copy-to-clipboard";
 
 const RootLayout = () => {
   //=> Get unique_code query
@@ -59,21 +60,44 @@ const RootLayout = () => {
     }
   }, [isError, error]);
 
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    if (!unique_code) return toast.error("Invalid card");
+
+    const success = copy(unique_code);
+
+    if (success) {
+      setCopied(true);
+      toast.success("Link copied to clipboard 🔗");
+      setTimeout(() => setCopied(false), 2000);
+    } else {
+      toast.error("Failed to copy");
+    }
+  };
   return (
     <div className="flex flex-col items-center ">
       {/* Input Section */}
-      <div className="w-full max-w-md mb-8">
-        <label className="block text-sm text-gray-400 mb-2">
-          Copy Your Code
-        </label>
-        <input
-          type="text"
-          placeholder="Your unique code"
-          className="w-full px-4 py-2 rounded-lg bg-gray-800 text-gray-200 placeholder-gray-500 border border-gray-700 focus:outline-none focus:border-transparent"
-          value={unique_code || ""}
-          readOnly
-        />
-      </div>
+      {unique_code ? (
+        <div className="w-full max-w-md mx-auto mt-6 mb-6">
+          <div className="flex items-center bg-[#4a175f] border border-[#5d2873] rounded-full shadow-md overflow-hidden">
+            <input
+              type="text"
+              value={(unique_code as string) || ""}
+              readOnly
+              className="flex-grow px-5 py-2 text-sm text-white bg-transparent outline-none rounded-l-full placeholder:text-gray-300"
+            />
+            <button
+              onClick={handleCopy}
+              className="px-5 py-2 bg-purple-600 hover:bg-purple-700 text-white text-sm font-medium rounded-r-full transition"
+            >
+              {copied ? "Copied!" : "Copy"}
+            </button>
+          </div>
+        </div>
+      ) : (
+        ""
+      )}
 
       {/* Video Section */}
       <div className="w-full max-w-lg mb-8 rounded-lg overflow-hidden shadow-xl">

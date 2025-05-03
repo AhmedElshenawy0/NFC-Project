@@ -78,12 +78,12 @@ const VCardTemplatesComponent = () => {
         </p>
       </div>
       {/* Template Selection */}
-      <div className="w-full max-w-3xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="w-full grid grid-cols-1 gap-6 place-items-center">
         {vCardStyles.map((ele) => {
           return (
             <div
               key={ele?.id}
-              className={`border-2 p-0 rounded-lg cursor-pointer hover:border-purple-500 transition`}
+              className={`border-2 p-0 rounded-lg cursor-pointer hover:border-purple-500 transition max-w-[500px]`}
               onClick={() => onTemplateSelect(ele?.type)}
             >
               {ele?.component}

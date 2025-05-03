@@ -11,6 +11,7 @@ import Snipper from "../../components/global/Snipper";
 import { Card, CustomError } from "../../types/types";
 import BtnSnipper from "../../components/global/BtnSnipper";
 import { FaUnlockAlt } from "react-icons/fa";
+import copy from "copy-to-clipboard";
 
 const Cards = () => {
   const navigate = useNavigate();
@@ -177,13 +178,16 @@ const Cards = () => {
                   <button
                     onClick={() => {
                       if (!card.unique_code) return toast.error("Invalid card");
-                      navigator.clipboard
-                        .writeText(
-                          `${window.location.origin}?unique_code=${card.unique_code}`
-                        )
-                        .then(() =>
-                          toast.success("Link copied to clipboard 🔗")
-                        );
+
+                      const link = `${window.location.origin}?unique_code=${card.unique_code}`;
+
+                      const success = copy(link);
+
+                      if (success) {
+                        toast.success("Link copied to clipboard 🔗");
+                      } else {
+                        toast.error("Failed to copy link");
+                      }
                     }}
                     className="w-full font-medium bg-blue-700 hover:bg-blue-800 text-white px-5 py-2 rounded-xl flex justify-center items-center gap-2"
                   >
