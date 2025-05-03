@@ -1,7 +1,7 @@
 import { useSearchParams } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCards } from "swiper/modules";
-import Typewriter from "typewriter-effect";
+// import Typewriter from "typewriter-effect";
 import "swiper/css";
 import "../../index.css";
 import { useGetOneSoldServicesQuery } from "../../store/apiSlice/Soldslice";
