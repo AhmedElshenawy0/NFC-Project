@@ -80,16 +80,16 @@ const RootLayout = () => {
       {/* Input Section */}
       {unique_code ? (
         <div className="w-full max-w-md mx-auto mt-6 mb-6">
-          <div className="flex items-center bg-[#4a175f] border border-[#5d2873] rounded-full shadow-md overflow-hidden">
+          <div className="flex items-center bg-[#ffffff] border border-[#5d2873] rounded-full shadow-md overflow-hidden">
             <input
               type="text"
               value={(unique_code as string) || ""}
               readOnly
-              className="flex-grow px-5 py-2 text-sm text-white bg-transparent outline-none rounded-l-full placeholder:text-gray-300"
+              className="flex-grow px-5 py-2 text-sm text-black bg-transparent outline-none rounded-l-full placeholder:text-gray-300"
             />
             <button
               onClick={handleCopy}
-              className="px-5 py-2 bg-purple-600 hover:bg-purple-700 text-white text-sm font-medium rounded-r-full transition"
+              className="px-5 py-2 bg-gradient-to-r from-purple-500 via-purple-600 to-purple-900 text-white text-sm font-semibold rounded-r-full transition duration-300 hover:brightness-110 shadow-md"
             >
               {copied ? "Copied!" : "Copy"}
             </button>

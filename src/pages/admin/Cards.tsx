@@ -111,7 +111,7 @@ const Cards = () => {
         Total Cards: {sortedCards?.length || 0}
       </div>
 
-      <div className="flex flex-wrap gap-4 mb-8 justify-center sm:justify-start">
+      <div className="flex flex-wrap gap-4 mb-8 justify-center sm:justify-center">
         {categories.map((cardType) => (
           <button
             key={cardType}

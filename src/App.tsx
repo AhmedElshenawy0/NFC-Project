@@ -104,7 +104,13 @@ const router = createBrowserRouter([
 function App() {
   return (
     <Provider store={store}>
-      <Toaster position="top-center" containerStyle={{ zIndex: "100" }} />
+      <Toaster
+        position="top-center"
+        containerStyle={{
+          zIndex: "100",
+          fontSize: "14px",
+        }}
+      />
       <ErrorBoundary>
         <RouterProvider router={router} />
       </ErrorBoundary>

@@ -101,7 +101,7 @@ const FirstUITest = ({
         transition={{ delay: 0.3, duration: 0.8 }}
         className={`p-6 ${textColor}`}
       >
-        <p className={`  ${textColor}font-bold text-lg text-center`}>
+        <p className={`  ${textColor} font-bold text-lg text-center`}>
           {formData?.bio}
         </p>
         <p

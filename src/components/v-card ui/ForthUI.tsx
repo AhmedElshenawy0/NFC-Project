@@ -41,7 +41,7 @@ const FourthUI = ({ data }: { data: any }) => {
           : "",
         // border: `1px solid ${data?.buttonBackground}`,
       }}
-      className="w-full absolute top-0 right-0 max-w-full mx-auto min-h-screen bg-gradient-to-r from-[#0f172a] to-[#1e293b] text-white shadow-xl overflow-hidden p-8 "
+      className="w-full absolute top-0 right-0 max-w-[500px] mx-auto min-h-screen bg-gradient-to-r from-[#0f172a] to-[#1e293b] text-white shadow-xl overflow-hidden p-8 "
     >
       {/* Profile Section */}
       <motion.div

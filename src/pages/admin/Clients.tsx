@@ -128,7 +128,7 @@ const Clients = () => {
           <FaArrowLeft color="white" />
         </button>
 
-        <h1 className="text-xl font-bold text-center sm:text-left">
+        <h1 className="text-xl font-bold text-center sm:text-left w-full">
           <Typewriter
             options={{
               strings: ["Manage Clients", "View & Edit"],

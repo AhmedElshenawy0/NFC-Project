@@ -66,14 +66,14 @@ const ChangeTheme = ({
     setIsThemeOpen(false);
   };
   return (
-    <div className="right-0 absolute top-0 bg-black px-3 py-7 flex flex-col items-center">
+    <div className="right-0 w-full absolute top-0 bg-black px-3 py-7 flex flex-col items-center">
       <div className="text-center w-full max-w-md mb-8">
         <p className="font-bold text-lg text-purple-700 bg-purple-50 px-4 py-2 rounded-md shadow-sm">
           Select a template to customize it for your needs.
         </p>
       </div>
       {/* Template Selection */}
-      <div className="relative w-full max-w-3xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="relative w-full grid grid-cols-1 gap-6">
         {vCardStyles.map((ele) => {
           return (
             <div

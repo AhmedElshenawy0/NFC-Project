@@ -32,7 +32,7 @@ const SecondUI = ({ data }: { data: any }) => {
 
   const lightColor = tinycolor(data?.mainBackground).lighten(60).toHexString();
   return (
-    <div className="w-full max-w-full mx-auto min-h-[100vh] bg-gradient-to-b from-gray-900 to-black text-white shadow-2xl overflow-hidden p-6 absolute right-0 top-0">
+    <div className=" max-w-[500px] mx-auto min-h-screen bg-gradient-to-b from-gray-900 to-black text-white shadow-2xl p-6">
       {/* Profile Section */}
       <motion.div
         initial={{ opacity: 0, y: -30 }}

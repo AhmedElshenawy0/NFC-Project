@@ -10,6 +10,7 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { handleSaveContact } from "../../utils/contactFile";
 import { isDark } from "../../utils/colorBritness";
+import tinycolor from "tinycolor2";
 
 const ThirdUI = ({ data }: { data: any }) => {
   const encodedAddress = encodeURIComponent(data?.address || "");
@@ -17,21 +18,31 @@ const ThirdUI = ({ data }: { data: any }) => {
 
   // Default text and btn color
   const [textColor, setTextColor] = useState("text-gray-300");
-  const [textBtnColor, setTextBtnColor] = useState("text-gray-300");
+  const [textBtnColor, setTextBtnColor] = useState("text-black");
 
   useEffect(() => {
     // check if color is dark Update text color
-    setTextColor(
-      isDark(data?.mainBackground) ? "text-gray-300" : "text-gray-900"
-    );
-    setTextBtnColor(
-      isDark(data?.buttonBackground) ? "text-gray-300" : "text-gray-900"
-    );
+    data?.mainBackground
+      ? setTextColor(
+          isDark(data?.mainBackground) ? "text-gray-300" : "text-gray-900"
+        )
+      : "";
+    data?.buttonBackground
+      ? setTextBtnColor(
+          isDark(data?.buttonBackground) ? "text-gray-300" : "text-gray-900"
+        )
+      : "";
   }, [data?.mainBackground, data?.buttonBackground]);
+
+  const lightColor = tinycolor(
+    data?.mainBackground ? data?.mainBackground : "#0d1321"
+  )
+    .lighten(10)
+    .toHexString();
   return (
     <div
-      style={{ background: data?.mainBackground }}
-      className={`min-h-screen max-w-full mx-auto flex bg-${data?.mainBackground} text-white p-6`}
+      // style={{ background: data?.mainBackground && data?.mainBackground }}
+      className={`min-h-screen max-w-[500px] mx-auto flex bg-black text-white p-6`}
     >
       <motion.div
         initial={{ opacity: 0, y: 50 }}
@@ -44,13 +55,13 @@ const ThirdUI = ({ data }: { data: any }) => {
               data?.mainBackground || "#ffffff"
             }, #2d2d2d)`,
         }}
-        className={`w-full max-w-lg bg-gradient-to-br from-gray-900  to-gray-800 shadow-2xl rounded-2xl overflow-hidden p-6 border border-gray-700`}
+        className={`w-full max-w-lg bg-gradient-to-br from-gray-900 via-black to-gray-800 shadow-2xl rounded-2xl overflow-hidden p-6 border border-gray-700`}
       >
-        <div className="relative">
+        <div className="relative" style={{ border: `1px solid ${lightColor}` }}>
           <img
             src={data?.image}
             alt="Profile"
-            className="w-full h-72 object-cover rounded-lg shadow-lg"
+            className="w-full h-72 object-cover object-top rounded-lg shadow-lg"
           />
           <div
             style={{
@@ -60,8 +71,8 @@ const ThirdUI = ({ data }: { data: any }) => {
             }}
             className={`absolute bottom-0 w-full  bg-gradient-to-t from-black to-transparent p-6 text-center`}
           >
-            <h2 className="text-white text-2xl font-bold">{data?.name}</h2>
-            <p className="text-gold-500 text-lg font-medium">{data.job}</p>
+            <h2 className={`${textColor} text-2xl font-bold`}>{data?.name}</h2>
+            <p className={`${textColor} text-lg font-medium`}>{data.job}</p>
           </div>
         </div>
 
@@ -128,10 +139,10 @@ const ThirdUI = ({ data }: { data: any }) => {
         <div className="p-6">
           <button
             onClick={() => handleSaveContact(data)}
-            style={{ background: data?.buttonBackground }}
-            className={`w-full py-3 ${
-              data?.buttonBackground ? textBtnColor : ""
-            } font-semibold text-lg rounded-lg shadow-xl transition transform hover:scale-105 `}
+            style={{
+              background: data?.buttonBackground && data?.buttonBackground,
+            }}
+            className={`w-full py-3 ${textBtnColor} font-semibold text-lg rounded-lg shadow-xl transition transform hover:scale-105 bg-amber-400`}
           >
             Save Contact
           </button>
