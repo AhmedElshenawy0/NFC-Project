@@ -126,7 +126,7 @@ const RootLayout = () => {
           ""
         )}
         <p className="mt-4 text-sm text-gray-400">
-          Activate your world with our innovative card solution!!
+          Activate your world with our innovative card solution!
         </p>
       </div>
     </div>
