@@ -78,9 +78,9 @@ const router = createBrowserRouter([
       {
         path: "/client-dashboard",
         element: (
-          <ProtectAuthRoute>
-            <ClientDashboard />
-          </ProtectAuthRoute>
+          // <ProtectAuthRoute>
+          <ClientDashboard />
+          // </ProtectAuthRoute>
         ),
       },
       {
