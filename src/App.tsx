@@ -84,7 +84,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        element: <ProtectAdminPage />,
+        // element: <ProtectAdminPage />,
         children: [
           { path: "/admin-dashboard", element: <AdminDashboard /> },
           { path: "/add-card", element: <AddCard /> },
