@@ -78,13 +78,13 @@ const router = createBrowserRouter([
       {
         path: "/client-dashboard",
         element: (
-          // <ProtectAuthRoute>
-          <ClientDashboard />
-          // </ProtectAuthRoute>
+          <ProtectAuthRoute>
+            <ClientDashboard />
+          </ProtectAuthRoute>
         ),
       },
       {
-        // element: <ProtectAdminPage />,
+        element: <ProtectAdminPage />,
         children: [
           { path: "/admin-dashboard", element: <AdminDashboard /> },
           { path: "/add-card", element: <AddCard /> },
