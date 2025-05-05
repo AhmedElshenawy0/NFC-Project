@@ -30,8 +30,6 @@ export const SignIn = () => {
   } = useGetClientInfoQuery(undefined);
 
   useEffect(() => {
-    if (!isSuccess || !data?.user) return;
-
     // Handle query error if exist
     if (queryError) {
       const decodedError = decodeURIComponent(queryError);
@@ -39,6 +37,7 @@ export const SignIn = () => {
       searchParams.delete("error");
       setSearchParams(searchParams, { replace: true });
     }
+    if (!isSuccess || !data?.user) return;
 
     // Handle query error if exist
     if (data?.user?.role === "admin") {
@@ -93,7 +92,12 @@ export const SignIn = () => {
       }
       console.log("error 222");
 
-      const result = await signIn({ email, password }).unwrap();
+      const result = await signIn({
+        email,
+        password,
+        cardType: queryType,
+        cardId,
+      }).unwrap();
       console.log(result);
 
       toast.success(`${result.message}`, {

@@ -22,6 +22,11 @@ export const AdminDashboard = () => {
     try {
       const response = await logout(undefined).unwrap();
       console.log("Logout response:", response);
+
+      if (response?.message === "success") {
+        toast.success("Logged out successfully!");
+        navigate("/signin?loggedOut=true");
+      }
     } catch (err) {
       console.error("Logout failed:", err);
       toast.error("Logout failed. Try again!");

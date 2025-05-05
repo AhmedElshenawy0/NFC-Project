@@ -23,6 +23,7 @@ import Layout from "./Layout";
 // import NotFound from "./pages/NotFound";
 import ErrorBoundary from "./components/global/ErrorBoundary";
 import ProtectAdminPage from "./components/auth/ProtectAdminPage";
+import VerifyEmail from "./pages/auth/VerifyEmail";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,7 @@ const router = createBrowserRouter([
       { path: "/", element: <Home /> },
       { path: "/signup", element: <Signup /> },
       { path: "/signin", element: <SignIn /> },
+      { path: "/verify-email", element: <VerifyEmail /> },
       {
         path: "/select-template",
         element: (

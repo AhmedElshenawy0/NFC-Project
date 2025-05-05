@@ -15,6 +15,9 @@ export const authSlice = createApi({
         method: "GET",
       }),
     }),
+    verifyEmail: builder.query({
+      query: (token) => `/verify-email?token=${token}`,
+    }),
     signUp: builder.mutation({
       query: (data) => ({
         url: "/register",
@@ -53,10 +56,8 @@ export const authSlice = createApi({
         try {
           await queryFulfilled;
 
-          // ✅ Reset the cache of all queries (optional but good practice)
           dispatch(authSlice.util.resetApiState());
 
-          // ✅ Optional: clear localStorage/sessionStorage
           localStorage.removeItem("token");
           localStorage.removeItem("user");
         } catch (err) {
@@ -81,7 +82,6 @@ export const authSlice = createApi({
       query: (email) => ({
         url: "/check-user",
         method: "POST",
-        // headers: { "Content-Type": "application/json" },
         body: { email },
       }),
       transformResponse: (response: any) => response,
@@ -123,4 +123,5 @@ export const {
   useDeleteClientMutation,
   useGetClientInfoQuery,
   useCheckUserRoleMutation,
+  useVerifyEmailQuery,
 } = authSlice;

@@ -50,7 +50,11 @@ const Signup = () => {
         toast.error("There is no credential");
         return;
       }
-      const result = await signUp(formData).unwrap();
+      const result = await signUp({
+        ...formData,
+        cardType: queryType,
+        cardId: queryId,
+      }).unwrap();
       console.log("User signed up successfully:", result);
       toast.success("Registration successful! Welcome aboard!", {
         duration: 5000,
