@@ -22,6 +22,8 @@ export const SignIn = () => {
   const isAuth = searchParams.get("auth") === "true";
   const gCardId = searchParams.get("gCardId") as string;
   const gType = searchParams.get("gCardType") as any;
+  console.log(queryType);
+  console.log(cardId);
 
   const {
     data,

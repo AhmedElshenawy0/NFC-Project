@@ -18,7 +18,7 @@ const VerifyEmail = () => {
     const hasCardInfo = cardType && cardId;
 
     if (isVerified && hasCardInfo && !isLoading && !error) {
-      navigate(`/signin?type=${cardType}&CardId=${cardId}`);
+      navigate(`/signin?type=${cardType}&cardId=${cardId}`);
     }
   }, [data, cardType, cardId, isSuccess, isLoading, error, navigate]);
 
