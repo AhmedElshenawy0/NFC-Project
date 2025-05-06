@@ -85,6 +85,7 @@ const RootLayout = () => {
               type="text"
               value={(unique_code as string) || ""}
               readOnly
+              onClick={handleCopy}
               className="flex-grow px-5 py-2 text-sm text-black bg-transparent outline-none rounded-l-full placeholder:text-gray-300"
             />
             <button

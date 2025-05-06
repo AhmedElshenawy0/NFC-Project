@@ -81,7 +81,9 @@ export const AdminDashboard = () => {
         // );
         return;
       } else {
-        toast.error("Error loading clients");
+        toast.error(
+          (fetchClientsError as any)?.data?.message || "Error loading clients"
+        );
       }
       return;
     }

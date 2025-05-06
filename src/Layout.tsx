@@ -47,7 +47,7 @@ const Layout = () => {
 
       <Outlet />
       {!hideHeaderRoutes.includes(location.pathname) && (
-        <footer className="relative bottom-6 right-[50%] translate-x-[50%] mt-6 flex justify-center pt-6 text-sm text-gray-600">
+        <footer className="relative bottom-0 right-[50%] translate-x-[50%] mt-6 flex justify-center pt-6 text-sm text-gray-600">
           © 2025 SignUp. All rights reserved.
         </footer>
       )}
