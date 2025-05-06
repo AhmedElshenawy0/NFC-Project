@@ -81,19 +81,27 @@ const ThirdUI = ({ data }: { data: any }) => {
         </div>
 
         {/* About Section */}
-        <div className="p-6 rounded-lg text-center mt-6 border border-gray-700">
-          <h3 className={`text-xl font-bold text-gold-500 mb-3 ${textColor}`}>
+        <div
+          style={{
+            border: data?.buttonBackground
+              ? `1px solid ${data?.buttonBackground}`
+              : "",
+            backgroundColor: lightColor,
+          }}
+          className="p-6 rounded-lg text-center mt-6 border border-gray-700"
+        >
+          <h3 className={`text-xl font-bold text-gold-500 mb-3  ${textColor}`}>
             About
           </h3>
-          <p className={`${textColor} leading-relaxed`}>
+          <p className={`${textColor} leading-relaxed italic`}>
             {data?.about || "No additional information available."}
           </p>
         </div>
 
-        <div className="flex flex-col items-center space-y-6 mt-6">
+        <div className="flex flex-col items-center space-y-6 mt-6 gap-2">
           <a
             href={`tel:+${data.phone}`}
-            className={`flex items-center gap-3 ${textColor} text-lg font-semibold`}
+            className={`flex items-center gap-3 ${textColor} text-lg font-semibold flex-col`}
           >
             <FaPhone className="text-2xl" /> {data.phone}
           </a>
@@ -102,14 +110,14 @@ const ThirdUI = ({ data }: { data: any }) => {
             href={mapsUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className={`flex items-center gap-3 ${textColor}`}
+            className={`flex items-center gap-3 flex-col ${textColor}`}
           >
             <FiMapPin className="text-2xl text-gold-400" />{" "}
             {data?.address || "Location unavailable"}
           </a>
         </div>
 
-        <div className="flex justify-center space-x-2 mt-6">
+        <div className="flex justify-center space-x-10 mt-8">
           <a
             href="https://facebook.com"
             className="text-blue-600 text-3xl hover:text-gold-500"
@@ -136,7 +144,7 @@ const ThirdUI = ({ data }: { data: any }) => {
           </a>
         </div>
 
-        <div className="p-6">
+        <div className="p-6 mt-6">
           <button
             onClick={() => handleSaveContact(data)}
             style={{

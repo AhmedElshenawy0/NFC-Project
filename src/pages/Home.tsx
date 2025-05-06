@@ -126,7 +126,7 @@ const RootLayout = () => {
           ""
         )}
         <p className="mt-4 text-sm text-gray-400">
-          Activate your world with our innovative card solution!!!
+          Activate your world with our innovative card solution!
         </p>
       </div>
     </div>
@@ -134,3 +134,10 @@ const RootLayout = () => {
 };
 
 export default RootLayout;
+
+// sudo rm -rf /root/nfc/back-end/*
+// sudo cp -r ./* /root/nfc/back-end
+// sudo docker rm -f $(sudo docker ps -aq)
+// sudo docker rmi -f nfc-app:latest
+// sudo docker build -t nfc-app /root/nfc/
+// sudo docker run -d -p 443:443 -p 5555:5555 --network=host nfc-app:latest

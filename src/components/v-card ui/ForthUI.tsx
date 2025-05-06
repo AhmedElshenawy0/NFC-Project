@@ -103,7 +103,7 @@ const FourthUI = ({ data }: { data: any }) => {
           {data?.bio}
         </p>
         <p
-          className={`text-sm mt-3 ${
+          className={`text-sm mt-3 italic ${
             data?.mainBackground ? textColor : "text-gray-400"
           } leading-relaxed`}
         >
@@ -138,7 +138,7 @@ const FourthUI = ({ data }: { data: any }) => {
                 } text-xl`}
               />
               <span
-                className={`font-semibold ${
+                className={`font-semibold italic ${
                   data?.mainBackground ? textColor : "gray-300"
                 }`}
               >
@@ -172,7 +172,7 @@ const FourthUI = ({ data }: { data: any }) => {
                 }`}
               />
               <span
-                className={`font-semibold  ${
+                className={`font-semibold italic  ${
                   data?.mainBackground ? textColor : "gray-300"
                 }`}
               >

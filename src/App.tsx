@@ -20,7 +20,7 @@ import EditMenu from "./pages/menu/EditMenu";
 import ProtectedTemplate from "./components/auth/ProtectedTemplate";
 import ProtectAuthRoute from "./components/auth/ProtectAuthRoute";
 import Layout from "./Layout";
-// import NotFound from "./pages/NotFound";
+import NotFound from "./pages/NotFound";
 import ErrorBoundary from "./components/global/ErrorBoundary";
 import ProtectAdminPage from "./components/auth/ProtectAdminPage";
 import VerifyEmail from "./pages/auth/VerifyEmail";
@@ -98,7 +98,7 @@ const router = createBrowserRouter([
         element: <FileTemplate />,
       },
 
-      { path: "*", element: <Home /> },
+      { path: "*", element: <NotFound /> },
     ],
   },
 ]);

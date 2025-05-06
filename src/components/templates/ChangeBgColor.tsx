@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { ChangeBgColorProps } from "../../types/types";
 import FirstUITest from "../v-card ui/FirstUiTest";
 import FourthUiTest from "../v-card ui/FourthUiTest";
@@ -68,8 +69,12 @@ const ChangeBgColor = ({
     });
     setIsColorOpen(false);
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
-    <div className="flex flex-col px-0 py-8 w-full z-50 right-0 absolute bg-[#1f0729] h-fit top-0 gap-1 items-center space-y-2">
+    <div className="flex flex-col px-0 py-8 w-full z-50 right-0 absolute bg-[#1f0729] h-full top-0 gap-1 items-center space-y-2">
       {/* Controller color btns */}
       <div className="w-full max-w-xl space-y-6">
         {/* Title */}
@@ -83,7 +88,7 @@ const ChangeBgColor = ({
         </div>
 
         {/* Color Controls */}
-        <div className="grid z-10 grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="flex z-10 justify-between gap-4">
           {/* Main Background Color */}
           <div className="rounded-xl mx-2 w-fit h-fit shadow-lg flex items-center justify-end space-x-2">
             <span className="bg-white p-2 rounded-xl text-sm font-medium text-gray-700">
@@ -113,7 +118,7 @@ const ChangeBgColor = ({
           </div>
 
           {/* Button Background Color */}
-          <div className=" rounded-xl mx-2 w-fit h-fit shadow-lg flex items-center justify-center space-x-2">
+          <div className=" rounded-xl mx-2 w-fit h-fit shadow-lg flex items-center justify-center flex-row-reverse gap-2 space-x-2">
             <span className="bg-white p-2 rounded-xl text-sm font-medium text-gray-700">
               Button Background
             </span>

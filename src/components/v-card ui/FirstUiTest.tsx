@@ -49,15 +49,28 @@ const FirstUITest = ({
   ]);
 
   const lightColor = tinycolor(
-    tempMainBackground ? tempMainBackground : "#5d5413"
+    formData?.buttomBackground || tempButtonBackground
+      ? formData?.buttomBackground || tempButtonBackground
+      : "#868822"
   )
-    .lighten(30)
+    .lighten(50)
+    .toHexString();
+
+  const color = tinycolor(
+    formData?.buttomBackground || tempButtonBackground
+      ? formData?.buttomBackground || tempButtonBackground
+      : "#868822"
+  )
+    .lighten(60)
     .toHexString();
 
   return (
     <div
       style={{
-        background: formData?.mainBackground ? formData?.mainBackground : "",
+        background:
+          formData?.mainBackground || tempMainBackground
+            ? formData?.mainBackground || tempMainBackground
+            : "",
       }}
       className="w-full bg-blue-950 min-h-[100vh] max-w-lg mx-auto overflow-hidden shadow-xl"
     >
@@ -71,22 +84,31 @@ const FirstUITest = ({
         <img
           src={formData?.image}
           alt="Profile"
-          className="w-full h-120 object-cover rounded-b-lg shadow-lg"
+          className="w-full h-100 object-cover object-top rounded-b-lg shadow-lg"
         />
         <div
-          className={`absolute -bottom-2 w-full bg-gradient-to-t ${
-            tempMainBackground || formData?.mainBackground
-              ? `from-[${tempMainBackground || formData?.mainBackground}]`
-              : `from-blue-950`
-          } to-transparent p-6 text-center`}
+          style={{
+            backgroundImage:
+              formData?.mainBackground || tempMainBackground
+                ? `linear-gradient(to top, ${
+                    formData?.mainBackground || tempMainBackground
+                  },transparent )`
+                : "linear-gradient(to top, #162456 ,transparent )",
+          }}
+          className={`absolute -bottom-2 w-full  pb-6 pt-14 text-center`}
         >
           <h2
-            className={` ${textColor} text-3xl font-extrabold animate-fade-in`}
+            className={` ${textColor} text-3xl mb-2 font-extrabold animate-fade-in`}
           >
             {formData?.name}
           </h2>
           <p
-            style={{ color: `${lightColor}` }}
+            style={{
+              color:
+                formData?.buttomBackground || tempButtonBackground
+                  ? tempButtonBackground || formData?.buttomBackground
+                  : `#868822`,
+            }}
             className={` text-lg font-medium animate-slide-up`}
           >
             {formData.job}
@@ -101,12 +123,15 @@ const FirstUITest = ({
         transition={{ delay: 0.3, duration: 0.8 }}
         className={`p-6 ${textColor}`}
       >
-        <p className={`  ${textColor} font-bold text-lg text-center`}>
+        <p
+          style={{ color: `${lightColor}` }}
+          className={`  font-bold text-lg text-center`}
+        >
           {formData?.bio}
         </p>
         <p
-          style={{ color: `${lightColor}` }}
-          className={`text-sm mt-4 px-4  text-center`}
+          style={{ color: `${color}` }}
+          className={`text-sm mt-4 px-4 italic text-center`}
         >
           {formData?.about}
         </p>
@@ -119,7 +144,10 @@ const FirstUITest = ({
         transition={{ delay: 0.5, duration: 0.8 }}
         className={`p-6 ${textColor}`}
       >
-        <h3 className={` ${textColor} font-semibold text-lg text-center`}>
+        <h3
+          style={{ color: `${lightColor}` }}
+          className={` font-semibold text-lg text-center`}
+        >
           Contact Information
         </h3>
         <hr
@@ -134,15 +162,27 @@ const FirstUITest = ({
             className="flex flex-col items-center"
           >
             <a
-              style={{ color: `${lightColor}` }}
+              style={{
+                backgroundColor:
+                  formData.buttonBackgroud || tempButtonBackground
+                    ? formData.buttonBackground || tempButtonBackground
+                    : `#868822`,
+                color: textColor,
+              }}
               className={`flex justify-center items-center w-14 h-14  rounded-full shadow-md`}
             >
               <FaPhone />
             </a>
-            <p style={{ color: `${lightColor}` }} className={` mt-3 text-sm`}>
+            <p
+              style={{ color: `${textColor}` }}
+              className={` mt-5 mb-1 text-sm italic`}
+            >
               Phone
             </p>
-            <a className={` ${textColor} font-semibold text-xl`}>
+            <a
+              style={{ color: textColor }}
+              className={` font-semibold text-xl`}
+            >
               {formData.phone}
             </a>
           </motion.div>
@@ -155,12 +195,21 @@ const FirstUITest = ({
               href={""}
               target="_blank"
               rel="noopener noreferrer"
-              style={{ color: `${lightColor}` }}
+              style={{
+                backgroundColor:
+                  formData.buttonBackgroud || tempButtonBackground
+                    ? formData.buttonBackground || tempButtonBackground
+                    : `#868822`,
+                color: textColor,
+              }}
               className={`flex justify-center items-center w-14 h-14  rounded-full shadow-md`}
             >
               <FiMapPin />
             </a>
-            <p style={{ color: `${lightColor}` }} className={` mt-3 text-sm`}>
+            <p
+              style={{ color: `${textColor}` }}
+              className={` mt-5 mb-1 text-sm italic`}
+            >
               Address
             </p>
             <a
@@ -211,9 +260,11 @@ const FirstUITest = ({
         <motion.div
           whileTap={{ scale: 0.95 }}
           style={{
-            backgroundImage: `linear-gradient(to bottom right, ${
-              tempButtonBackground || formData?.buttonBackground
-            },  #1a1a1a)`,
+            background:
+              formData?.buttonBackground || tempButtonBackground
+                ? formData?.buttonBackground || tempButtonBackground
+                : `#868822`,
+            color: textBtnColor,
           }}
           className={`${textBtnColor} w-full flex items-center justify-center gap-3 py-3 text-white bg-[#5d5413] font-semibold text-lg rounded-lg shadow-lg cursor-pointer transition`}
         >

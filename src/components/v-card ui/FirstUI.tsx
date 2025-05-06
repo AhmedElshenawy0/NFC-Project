@@ -19,7 +19,7 @@ const FirstUI = ({ data }: { data: any }) => {
   const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodedAddress}`;
 
   // Default text color and btn
-  const [textColor, setTextColor] = useState("text-black");
+  const [textColor, setTextColor] = useState("text-white");
   const [textBtnColor, setTextBtnColor] = useState("text-black");
 
   useEffect(() => {
@@ -35,9 +35,15 @@ const FirstUI = ({ data }: { data: any }) => {
   }, [data?.mainBackground, data?.buttonBackground]);
 
   const lightColor = tinycolor(
-    data?.mainBackground ? data?.mainBackground : "#5d5413"
+    data?.buttomBackground ? data?.buttomBackground : "#868822"
   )
-    .lighten(60)
+    .lighten(20)
+    .toHexString();
+
+  const color = tinycolor(
+    data?.buttomBackground ? data?.buttomBackground : "#868822"
+  )
+    .lighten(40)
     .toHexString();
 
   return (
@@ -61,18 +67,22 @@ const FirstUI = ({ data }: { data: any }) => {
           style={{
             backgroundImage: data?.mainBackground
               ? `linear-gradient(to top, ${data?.mainBackground},transparent )`
-              : "",
+              : "linear-gradient(to top, #162456 ,transparent )",
           }}
-          className={`absolute -bottom-2 w-full bg-gradient-to-t from-[${data?.mainBackground}] to-transparent p-6 text-center`}
+          className={`absolute -bottom-1 w-full bg-gradient-to-t from-[${data?.mainBackground}] to-transparent pb-6 pt-14 text-center`}
         >
           <h2
-            className={` ${textColor} text-3xl font-extrabold animate-fade-in`}
+            className={` ${textColor} text-3xl mb-2 font-extrabold animate-fade-in capitalize `}
           >
             {data?.name}
           </h2>
           <p
-            style={{ color: `${lightColor}` }}
-            className="text-yellow-300 text-lg font-medium animate-slide-up"
+            style={{
+              color: data?.buttomBackground
+                ? data?.buttomBackground
+                : `#868822`,
+            }}
+            className="text-lg font-medium animate-slide-up capitalize"
           >
             {data.job}
           </p>
@@ -92,7 +102,12 @@ const FirstUI = ({ data }: { data: any }) => {
         >
           {data?.bio}
         </p>
-        <p className={`text-sm mt-3 ${textColor} text-center`}>{data?.about}</p>
+        <p
+          style={{ color: `${color}` }}
+          className={`text-sm mt-3 text-center italic`}
+        >
+          {data?.about}
+        </p>
       </motion.div>
 
       {/* Contact Section */}
@@ -120,13 +135,21 @@ const FirstUI = ({ data }: { data: any }) => {
             className="flex flex-col items-center"
           >
             <a
-              style={{ backgroundColor: `${lightColor}`, color: textColor }}
+              style={{
+                backgroundColor: data.buttonBackgroud
+                  ? data.buttonBackground
+                  : `#868822`,
+                color: textColor,
+              }}
               href={`tel:+${data.phone}`}
-              className="flex justify-center items-center w-14 h-14 bg-yellow-400 rounded-full shadow-md"
+              className="flex justify-center items-center w-14 h-14 bg-yellow-00 rounded-full shadow-md"
             >
               <FaPhone />
             </a>
-            <p style={{ color: textColor }} className="mt-3 text-sm">
+            <p
+              style={{ color: textColor }}
+              className="mt-5 mb-1 italic text-sm"
+            >
               Phone
             </p>
             <a
@@ -146,12 +169,20 @@ const FirstUI = ({ data }: { data: any }) => {
               href={mapsUrl}
               target="_blank"
               rel="noopener noreferrer"
-              style={{ backgroundColor: `${lightColor}`, color: textColor }}
-              className="flex justify-center items-center w-14 h-14 bg-yellow-400 rounded-full shadow-md"
+              style={{
+                backgroundColor: data.buttonBackgroud
+                  ? data.buttonBackground
+                  : `#868822`,
+                color: textColor,
+              }}
+              className="flex justify-center items-center w-14 h-14 bg-[#868822] rounded-full shadow-md"
             >
               <FiMapPin />
             </a>
-            <p style={{ color: textColor }} className="mt-3 text-sm">
+            <p
+              style={{ color: textColor }}
+              className="mt-5 mb-1 italic text-sm"
+            >
               Address
             </p>
             <a
@@ -204,9 +235,12 @@ const FirstUI = ({ data }: { data: any }) => {
           onClick={() => handleSaveContact(data)}
           whileTap={{ scale: 0.95 }}
           style={{
-            backgroundImage: `linear-gradient(to bottom right, ${data?.buttonBackground},  #1a1a1a)`,
+            background: data?.buttonBackground
+              ? data?.buttonBackground
+              : `#868822`,
+            color: textBtnColor,
           }}
-          className={`${textBtnColor}w-full flex items-center justify-center gap-3 py-3 text-white bg-gradient-to-r from-gray-700 to-gray-800 font-semibold text-lg rounded-lg shadow-lg cursor-pointer transition`}
+          className={`${textBtnColor} w-full flex items-center justify-center gap-3 py-3 bg-gradient-to-r from-gray-700 to-gray-800 font-bold text-lg rounded-lg shadow-lg cursor-pointer transition`}
         >
           Save Contact
         </motion.button>

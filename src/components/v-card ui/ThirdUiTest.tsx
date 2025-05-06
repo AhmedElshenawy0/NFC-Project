@@ -114,14 +114,14 @@ const ThirdUITest = ({
           <h3 className={`text-xl font-bold text-gold-500 mb-3 ${textColor}`}>
             About
           </h3>
-          <p className={`${textColor} leading-relaxed`}>
+          <p className={`${textColor} leading-relaxed italic`}>
             {formData?.about || "No additional information available."}
           </p>
         </div>
 
-        <div className="flex flex-col items-center space-y-6 mt-6">
+        <div className="flex flex-col items-center space-y-6 mt-6 gap-2">
           <a
-            className={`flex items-center gap-3 ${textColor} text-lg font-semibold`}
+            className={`flex items-center gap-3 ${textColor} text-lg font-semibold flex-col`}
           >
             <FaPhone className="text-2xl" /> {formData.phone}
           </a>
@@ -130,14 +130,14 @@ const ThirdUITest = ({
             href={""}
             target="_blank"
             rel="noopener noreferrer"
-            className={`flex items-center gap-3 ${textColor}`}
+            className={`flex items-center gap-3 flex-col ${textColor}`}
           >
             <FiMapPin className="text-2xl text-gold-400" />{" "}
             {formData?.address || "Location unavailable"}
           </a>
         </div>
 
-        <div className="flex justify-center space-x-2 mt-6">
+        <div className="flex justify-center space-x-10 mt-8">
           <a
             href="https://facebook.com"
             className="text-blue-600 text-3xl hover:text-gold-500"
@@ -164,7 +164,7 @@ const ThirdUITest = ({
           </a>
         </div>
 
-        <div className="p-6">
+        <div className="p-6 mt-6">
           <div
             style={{
               background:

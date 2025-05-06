@@ -122,7 +122,7 @@ const FourthUiTest = ({
           {formData?.bio}
         </p>
         <p
-          className={`text-sm mt-3 ${
+          className={`text-sm mt-3 italic ${
             tempMainBackground ? `text-[${lightColor}]` : "text-[#cbd5e1]"
           } leading-relaxed`}
         >
@@ -151,7 +151,7 @@ const FourthUiTest = ({
           >
             <div className="flex items-center gap-3">
               <FaPhone className={` ${textColor} text-xl`} />
-              <span className={`font-semibold ${textColor}`}>Phone</span>
+              <span className={`font-semibold italic ${textColor}`}>Phone</span>
             </div>
             <span className={`text-lg font-bold ${textColor}`}>
               {formData?.phone}
@@ -174,7 +174,9 @@ const FourthUiTest = ({
           >
             <div className="flex items-center gap-3">
               <FiMapPin className={` text-xl ${textColor}`} />
-              <span className={`font-semibold ${textColor}`}>Address</span>
+              <span className={`font-semibold italic ${textColor}`}>
+                Address
+              </span>
             </div>
             <span className={`text-md font-bold ${textColor}`}>View Map</span>
           </motion.a>

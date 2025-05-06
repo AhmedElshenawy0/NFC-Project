@@ -141,6 +141,9 @@ const CustomizeTemplate = () => {
   }, [isError, error]);
   console.log("theme is ", theme);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div className="min-h-screen flex flex-col items-center text-gray-200 px-0 py-0">
       <h1 className="text-2xl font-bold text-white mb-6">Edit Your Template</h1>
