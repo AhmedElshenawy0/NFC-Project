@@ -107,7 +107,7 @@ const ClientDashboard = () => {
                 </button>
                 <button
                   onClick={() => handleEditServiceClick(ele.id, ele.type)}
-                  className="w-full px-6 py-3 bg-green-700 cursor-pointer text-white text-sm font-bold rounded-xl shadow-md transition-all"
+                  className="w-full px-6 py-3 bg-green-800 cursor-pointer text-white text-sm font-bold rounded-xl shadow-md transition-all"
                   aria-label="Edit this service"
                 >
                   Edit Service

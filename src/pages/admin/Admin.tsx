@@ -113,10 +113,10 @@ export const AdminDashboard = () => {
       transition={{ duration: 0.6 }}
       className="flex flex-col items-center text-gray-100 w-full max-w-xl mx-auto p-6 rounded-2xl shadow-xl bg-gradient-to-br from-gray-900 to-black border border-green-800 transition-all"
     >
-      <h1 className="text-3xl font-bold mb-4 tracking-wide text-mint-100">
+      <h1 className="text-[28px] font-bold mb-4 tracking-wide text-mint-100">
         Admin Dashboard
       </h1>
-      <hr className="w-full border-mint-600 mb-6" />
+      <hr className="w-full border-mint-600 mb-6 " />
 
       <div className="flex justify-between w-full mb-6">
         <div className="flex-1 text-center">
@@ -145,7 +145,7 @@ export const AdminDashboard = () => {
       <div className="w-full flex flex-col gap-4">
         <Link
           to="/add-card"
-          className="flex items-center gap-3 p-4 bg-green-900 hover:bg-green-950 transition rounded-xl shadow text-mint-100"
+          className="flex items-center gap-3 p-4 bg-green-800 hover:bg-green-950 transition rounded-xl shadow text-mint-100"
         >
           <FaPlus className="text-xl text-[#6ee7b7]" />
           <span className="font-medium">Add New Card</span>
@@ -153,7 +153,7 @@ export const AdminDashboard = () => {
 
         <Link
           to="/cards"
-          className="flex items-center gap-3 p-4 bg-green-900 hover:bg-green-950 transition rounded-xl shadow text-mint-100"
+          className="flex items-center gap-3 p-4 bg-green-800 hover:bg-green-950 transition rounded-xl shadow text-mint-100"
         >
           <FaIdCard className="text-xl text-[#6ee7b7]" />
           <span className="font-medium">View Cards</span>
@@ -161,7 +161,7 @@ export const AdminDashboard = () => {
 
         <Link
           to="/clients"
-          className="flex items-center gap-3 p-4 bg-green-900 hover:bg-green-950 transition rounded-xl shadow text-mint-100"
+          className="flex items-center gap-3 p-4 bg-green-800 hover:bg-green-950 transition rounded-xl shadow text-mint-100"
         >
           <FaUsers className="text-xl text-[#6ee7b7]" />
           <span className="font-medium">View Clients</span>
@@ -169,9 +169,9 @@ export const AdminDashboard = () => {
 
         <button
           onClick={() => setShowLogoutConfirm(true)}
-          className="flex items-center gap-3 p-4 bg-green-900 hover:bg-green-950 border border-red-900 transition rounded-xl shadow text-mint-100"
+          className="flex items-center gap-3 p-4 bg-red-900 border border-red-950 transition rounded-xl shadow text-mint-100"
         >
-          <FaSignOutAlt className="text-xl text-[#6ee7b7]" />
+          <FaSignOutAlt className="text-xl text-white" />
           <span className="font-medium">Log Out</span>
         </button>
       </div>

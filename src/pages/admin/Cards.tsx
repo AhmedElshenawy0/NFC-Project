@@ -79,13 +79,20 @@ const Cards = () => {
     }
   }, [isError, isSuccess, error]);
 
-  // if (!isLoading && (!data || !data.cards)) {
-  //   return (
-  //     <div className="text-center text-red-400 mt-12">
-  //       Failed to load cards. Please try again later.
-  //     </div>
-  //   );
-  // }
+  const viewService = (card: any) => {
+    if (!card.client_id) return toast.error("Invalid card");
+    if (card?.sold_service?.type === "vCard") {
+      window.open(
+        `${window.location.origin}/template?id=${card?.sold_service?.id}`,
+        "_blank"
+      );
+    } else if (card?.sold_service.type === "menu") {
+      window.open(
+        `${window.location.origin}/menu-template?id=${card?.sold_service?.id}`,
+        "_blank"
+      );
+    }
+  };
 
   return (
     <div>
@@ -143,12 +150,12 @@ const Cards = () => {
                 <h2 className="text-xl font-bold text-white mb-4 uppercase tracking-wide">
                   {card.nfc_type}
                 </h2>
-                <p className="text-gray-400 mb-1">
-                  <span className="font-medium text-white">Shape:</span>{" "}
-                  {card.nfc_shap}
+                <p className="text-gray-400 mb-1 capitalize">
+                  <span className="font-medium text-white">Type:</span>{" "}
+                  {card.nfc_type}
                 </p>
-                <p className="text-gray-400">
-                  <span className="font-medium text-white">Owner:</span>{" "}
+                <p className="text-gray-400 capitalize">
+                  <span className="font-medium text-white ">Owner:</span>{" "}
                   {card.client?.first_name ? (
                     `${card.client.first_name} ${card.client.last_name}`
                   ) : (
@@ -174,31 +181,41 @@ const Cards = () => {
                   ) : (
                     ""
                   )}
+                  {!card?.client_id && !card?.sold_service?.id ? (
+                    <button
+                      onClick={() => {
+                        if (!card.unique_code)
+                          return toast.error("Invalid card");
 
-                  <button
-                    onClick={() => {
-                      if (!card.unique_code) return toast.error("Invalid card");
+                        const link = `${window.location.origin}?unique_code=${card.unique_code}`;
 
-                      const link = `${window.location.origin}?unique_code=${card.unique_code}`;
+                        const success = copy(link);
 
-                      const success = copy(link);
+                        if (success) {
+                          toast.success("Link copied to clipboard 🔗");
+                        } else {
+                          toast.error("Failed to copy link");
+                        }
+                      }}
+                      className="w-full font-medium bg-blue-700 hover:bg-blue-800 text-white px-5 py-2 rounded-xl flex justify-center items-center gap-2"
+                    >
+                      🔗 <span className="text-sm">Generate Link</span>
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => viewService(card)}
+                      className="w-full font-medium bg-blue-700 hover:bg-blue-800 text-white px-5 py-2 rounded-xl flex justify-center items-center gap-2"
+                    >
+                      <span className="text-sm">View</span>
+                    </button>
+                  )}
 
-                      if (success) {
-                        toast.success("Link copied to clipboard 🔗");
-                      } else {
-                        toast.error("Failed to copy link");
-                      }
-                    }}
-                    className="w-full font-medium bg-blue-700 hover:bg-blue-800 text-white px-5 py-2 rounded-xl flex justify-center items-center gap-2"
-                  >
-                    🔗 <span className="text-sm">Generate Link</span>
-                  </button>
-
+                  {/* Deactivate card */}
                   {showModal && selectedCard?.id === card.id && (
                     <div className="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center">
                       <div className="bg-white text-black rounded-xl p-6 w-[90%] max-w-md shadow-lg">
                         <h2 className="text-xl font-semibold mb-4">
-                          Are you sure you want to unassign this card?
+                          Are you sure you want to deactivate this card?
                         </h2>
                         <p className="text-sm text-gray-500 mb-6">
                           This will disconnect the assigned client. This action

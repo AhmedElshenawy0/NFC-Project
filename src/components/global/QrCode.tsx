@@ -117,7 +117,7 @@ const QRWithImage = ({ qrUrl }: QRWithImageProps) => {
 
               <button
                 onClick={handleDownload}
-                className="w-full px-4 py-2 rounded-xl bg-green-600 text-white text-sm font-semibold border border-transparent flex items-center justify-center gap-2"
+                className="w-full px-4 py-2 rounded-xl bg-green-800 text-white text-sm font-semibold border border-transparent flex items-center justify-center gap-2"
               >
                 <FaDownload className="-mt-0.5" />
                 Download QR Code

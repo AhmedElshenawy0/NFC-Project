@@ -131,7 +131,7 @@ const MenuTemplatesComponent: React.FC = () => {
       {menuImages.length > 0 && (
         <button
           onClick={(e) => handleSubmit(e)}
-          className="mt-6 cursor-pointer px-6 py-3 bg-green-700 rounded-lg shadow-lg hover:bg-green-900 transition-all duration-300"
+          className="mt-6 cursor-pointer px-6 py-3 bg-green-800 rounded-lg shadow-lg hover:bg-green-900 transition-all duration-300"
         >
           {isLoading ? <BtnSnipper /> : "Confirm Selection"}
         </button>

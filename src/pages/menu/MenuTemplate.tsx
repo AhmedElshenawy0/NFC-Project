@@ -99,9 +99,9 @@ const MenuTemplate: React.FC = () => {
             />
             <button
               onClick={() => setPreviewImage(null)}
-              className="absolute top-4 right-2 text-white text-2xl bg-red-800 rounded-full w-10 h-10 flex items-center justify-center "
+              className="absolute top-4 right-2 text-white text-2xl bg-green-900 rounded-full w-10 h-10 flex items-center justify-center "
             >
-              <FiX size={20} className="text-red-500" />{" "}
+              <FiX size={20} className="text-white" />{" "}
             </button>
           </div>
         </div>

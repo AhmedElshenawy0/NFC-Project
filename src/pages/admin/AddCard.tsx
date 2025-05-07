@@ -66,8 +66,8 @@ const AddCard = () => {
           </option>
           <option value="vCard">V-Card</option>
           <option value="menu">Menu</option>
-          <option value="url">URL</option>
-          <option value="file">File</option>
+          {/* <option value="url">URL</option>
+          <option value="file">File</option> */}
         </select>
       </div>
 
