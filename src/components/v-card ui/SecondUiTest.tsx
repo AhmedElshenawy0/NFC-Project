@@ -120,7 +120,9 @@ const SecondUiTest = ({
                 style={{ color: lightColor }}
                 className="text-purple-400 text-xl"
               />
-              <span className={` ${textColor}   font-semibold`}>Phone</span>
+              <span className={` ${textColor}   font-semibold italic`}>
+                Phone
+              </span>
             </div>
             <span
               style={{ color: lightColor }}
@@ -141,7 +143,9 @@ const SecondUiTest = ({
                 style={{ color: lightColor }}
                 className="text-purple-400 text-xl"
               />
-              <span className={` ${textColor} font-semibold`}>Address</span>
+              <span className={` ${textColor} font-semibold italic`}>
+                Address
+              </span>
             </div>
             <span
               style={{ color: lightColor }}

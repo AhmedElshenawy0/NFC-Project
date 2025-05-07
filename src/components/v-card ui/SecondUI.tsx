@@ -105,7 +105,7 @@ const SecondUI = ({ data }: { data: any }) => {
                 style={{ color: data?.mainBackground ? lightColor : "" }}
                 className="text-purple-400 text-xl"
               />
-              <span className="font-semibold">Phone</span>
+              <span className="font-semibold italic">Phone</span>
             </div>
             <span
               style={{ color: data?.mainBackground ? lightColor : "" }}
@@ -126,7 +126,7 @@ const SecondUI = ({ data }: { data: any }) => {
                 style={{ color: data?.mainBackground ? lightColor : "" }}
                 className="text-purple-400 text-xl"
               />
-              <span className="font-semibold">Address</span>
+              <span className="font-semibold italic">Address</span>
             </div>
             <span
               style={{ color: data?.mainBackground ? lightColor : "" }}
